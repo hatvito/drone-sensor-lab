@@ -7,25 +7,28 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="min-h-screen flex flex-col justify-between bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#070b14] to-black">
+<body class="min-h-screen flex flex-col justify-between">
 
     <!-- 頂部導覽列 -->
-    <header class="glass-panel sticky top-0 z-30 border-b border-sky-500/20 px-6 py-4">
+    <header class="glass-panel sticky top-0 z-30 border-b border-violet-300/20 px-6 py-4">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-lg bg-sky-500/20 border border-sky-400 flex items-center justify-center text-sky-400 font-bold text-xl">
+            <div class="flex items-center space-x-3.5">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#005BAC] to-[#00A59B] border border-violet-300/50 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-teal-500/20">
                     🛸
                 </div>
                 <div>
-                    <span class="text-xs font-semibold uppercase tracking-widest text-sky-400">都會避障挑戰賽・前置訓練模組</span>
-                    <h1 class="text-xl font-bold text-white tracking-tight">無人機進階感測器實驗室 <span class="text-slate-400 font-normal text-sm">Drone Sensor Lab v2.0</span></h1>
+                    <span class="text-xs font-semibold uppercase tracking-widest text-teal-300">都會避障挑戰賽・前置訓練模組</span>
+                    <h1 class="text-xl font-bold text-white tracking-tight">
+                        無人機進階感測器實驗室 
+                        <span class="text-violet-300 font-normal text-sm ml-1">Drone Sensor Lab v2.0</span>
+                    </h1>
                 </div>
             </div>
             <div class="flex items-center space-x-3">
-                <button onclick="document.getElementById('teacherModal').classList.remove('hidden')" class="px-4 py-2 rounded-lg text-sm font-medium bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 transition">
+                <button onclick="document.getElementById('teacherModal').classList.remove('hidden')" class="px-4 py-2 rounded-lg text-sm font-medium badge-lavender hover:bg-violet-400/25 transition">
                     👨‍🏫 教師課堂教學指引
                 </button>
-                <a href="lab.html?level=1" class="px-5 py-2 rounded-lg text-sm font-semibold bg-sky-500 hover:bg-sky-400 text-slate-950 shadow-lg shadow-sky-500/25 transition">
+                <a href="lab.html?level=1" class="px-5 py-2 rounded-lg text-sm font-semibold btn-fubon-aqua">
                     直接進入實驗室 ➔
                 </a>
             </div>
@@ -36,26 +39,30 @@
     <main class="max-w-7xl mx-auto px-6 py-10 space-y-12">
 
         <!-- Hero 簡介與安全限高說明 -->
-        <section class="glass-panel rounded-2xl p-8 border border-sky-500/30 relative overflow-hidden">
-            <div class="grid md:grid-cols-3 gap-8 items-center">
+        <section class="glass-panel rounded-2xl p-8 border border-violet-300/30 relative overflow-hidden">
+            <!-- 背景裝飾光暈 -->
+            <div class="absolute -top-24 -right-24 w-72 h-72 bg-teal-400/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-violet-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="grid md:grid-cols-3 gap-8 items-center relative z-10">
                 <div class="md:col-span-2 space-y-4">
-                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-300 text-xs font-medium">
+                    <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full badge-lavender text-xs font-medium">
                         <span>🎯 訓練目標：掌握現代自主無人機（Amazon MK30 同級）感知與決策架構</span>
                     </div>
                     <h2 class="text-3xl font-bold text-white leading-tight">
                         為什麼單靠一顆鏡頭，無人機無法在真實城市生存？
                     </h2>
-                    <p class="text-slate-300 text-sm leading-relaxed">
-                        在進入複雜的都會叢林之前，你必須先學會解讀三種互補的感測器資料：用<strong class="text-sky-400">雙目深度矩陣</strong>閃避極細高壓電線、用<strong class="text-amber-400">4D 毫米波雷達</strong>在濃霧暴雨中預判動態飛鳥軌跡，並透過<strong class="text-emerald-400">下視 ToF 測距</strong>避開屋頂水塔與斜坡完成精準降落。
+                    <p class="text-violet-100/85 text-sm leading-relaxed">
+                        在進入複雜的都會叢林之前，你必須先學會解讀三種互補的感測器資料：用<strong class="text-sky-300">雙目深度矩陣</strong>閃避極細高壓電線、用<strong class="text-teal-300">4D 毫米波雷達</strong>在濃霧暴雨中預判動態飛鳥軌跡，並透過<strong class="text-violet-300">下視 ToF 測距</strong>避開屋頂水塔與斜坡完成精準降落。
                     </p>
                 </div>
-                <div class="bg-red-950/30 border border-red-500/40 rounded-xl p-5 space-y-2">
+                <div class="bg-[#1a1033]/75 border border-rose-400/40 rounded-xl p-5 space-y-2 shadow-inner">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold uppercase tracking-wider text-red-400">⚠️ 空域防作弊法則</span>
-                        <span class="px-2 py-0.5 text-xs rounded bg-red-500/20 text-red-300 font-mono-code">MAX_ALT = 18.0m</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-rose-300">⚠️ 空域防作弊法則</span>
+                        <span class="px-2 py-0.5 text-xs rounded bg-rose-500/20 text-rose-200 font-mono-code border border-rose-400/30">MAX_ALT = 18.0m</span>
                     </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        實驗室上方 <strong class="text-red-300">18 公尺處設有紅色雷射限高網格</strong>。企圖把高度拉高直接飛越障礙物將觸發違規攔截！所有避障演算法皆須在低空走廊內完成。
+                    <p class="text-xs text-violet-100/80 leading-relaxed">
+                        實驗室上方 <strong class="text-rose-300">18 公尺處設有防護雷射限高網格</strong>。企圖把高度拉高直接飛越障礙物將觸發違規攔截！所有避障演算法皆須在低空走廊內完成。
                     </p>
                 </div>
             </div>
@@ -66,91 +73,91 @@
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-bold text-white flex items-center gap-2">
                     <span>🕹️ 選擇實訓關卡</span>
-                    <span class="text-xs font-normal text-slate-400">（每關皆附「學生填空練習 TODO」與「標準解答」一鍵切換）</span>
+                    <span class="text-xs font-normal text-violet-300/80">（每關皆附「學生填空練習 TODO」與「標準解答」一鍵切換）</span>
                 </h3>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- 關卡 1 -->
-                <div class="glass-panel glass-card-hover rounded-xl p-6 flex flex-col justify-between border-t-4 border-t-sky-400">
+                <!-- 關卡 1：富邦藍主題 -->
+                <div class="glass-panel glass-card-hover rounded-xl p-6 flex flex-col justify-between border-t-4 border-t-[#0080DB]">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold px-2.5 py-1 rounded bg-sky-500/20 text-sky-300">LEVEL 01</span>
-                            <span class="text-xs text-slate-400 font-mono-code">16×16 Matrix</span>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded bg-[#005BAC]/50 text-sky-200 border border-sky-400/40">LEVEL 01</span>
+                            <span class="text-xs text-violet-300 font-mono-code">16×16 Matrix</span>
                         </div>
                         <h4 class="text-lg font-bold text-white">雙目立體視覺相機</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed">
+                        <p class="text-xs text-violet-100/80 leading-relaxed">
                             晴朗環境下，前方佈滿極細高壓電線與樹枝。學習使用 <code class="text-sky-300">4×4 滑動視窗</code> 找出最大安全連通區域並轉換為轉向速度。
                         </p>
-                        <div class="pt-2 text-xs text-slate-400 space-y-1">
-                            <div>🔹 API: <code class="text-slate-200">get_stereo_depth_map()</code></div>
+                        <div class="pt-2 text-xs text-violet-200/75 space-y-1">
+                            <div>🔹 API: <code class="text-sky-200">get_stereo_depth_map()</code></div>
                             <div>🔹 練習重點：轉向倍率與安全減速距離</div>
                         </div>
                     </div>
-                    <a href="lab.html?level=1" class="mt-6 w-full py-2.5 rounded-lg bg-sky-500/20 hover:bg-sky-500 hover:text-slate-950 text-sky-300 border border-sky-500/40 text-center text-sm font-semibold transition">
+                    <a href="lab.html?level=1" class="mt-6 w-full py-2.5 rounded-lg bg-[#005BAC]/40 hover:bg-[#0076CE] text-sky-200 hover:text-white border border-sky-400/40 text-center text-sm font-semibold transition">
                         進入關卡一 ➔
                     </a>
                 </div>
 
-                <!-- 關卡 2 -->
-                <div class="glass-panel glass-card-hover rounded-xl p-6 flex flex-col justify-between border-t-4 border-t-amber-400">
+                <!-- 關卡 2：湖水綠主題 -->
+                <div class="glass-panel glass-card-hover rounded-xl p-6 flex flex-col justify-between border-t-4 border-t-[#00A59B]">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold px-2.5 py-1 rounded bg-amber-500/20 text-amber-300">LEVEL 02</span>
-                            <span class="text-xs text-slate-400 font-mono-code">Doppler Radar</span>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded bg-[#00A59B]/30 text-teal-200 border border-teal-400/40">LEVEL 02</span>
+                            <span class="text-xs text-violet-300 font-mono-code">Doppler Radar</span>
                         </div>
                         <h4 class="text-lg font-bold text-white">4D 毫米波雷達</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed">
-                            濃霧豪雨導致光學鏡頭充滿雜訊失效！利用全天候毫米波雷達回傳的<strong class="text-amber-300">都卜勒相對速度</strong>，預判橫向移動飛鳥與巡邏機的未來位置。
+                        <p class="text-xs text-violet-100/80 leading-relaxed">
+                            濃霧豪雨導致光學鏡頭充滿雜訊失效！利用全天候毫米波雷達回傳的<strong class="text-teal-300">都卜勒相對速度</strong>，預判橫向移動飛鳥與巡邏機的未來位置。
                         </p>
-                        <div class="pt-2 text-xs text-slate-400 space-y-1">
-                            <div>🔹 API: <code class="text-slate-200">get_4d_radar_detections()</code></div>
-                            <div>🔹 練習重點：未來軌跡預判公式 <code class="text-amber-300">x + vx * dt</code></div>
+                        <div class="pt-2 text-xs text-violet-200/75 space-y-1">
+                            <div>🔹 API: <code class="text-teal-200">get_4d_radar_detections()</code></div>
+                            <div>🔹 練習重點：未來軌跡預判公式 <code class="text-teal-300">x + vx * dt</code></div>
                         </div>
                     </div>
-                    <a href="lab.html?level=2" class="mt-6 w-full py-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-400 hover:text-slate-950 text-amber-300 border border-amber-500/40 text-center text-sm font-semibold transition">
+                    <a href="lab.html?level=2" class="mt-6 w-full py-2.5 rounded-lg bg-[#00A59B]/30 hover:bg-[#00A59B] text-teal-200 hover:text-white border border-teal-400/40 text-center text-sm font-semibold transition">
                         進入關卡二 ➔
                     </a>
                 </div>
 
-                <!-- 關卡 3 -->
-                <div class="glass-panel glass-card-hover rounded-xl p-6 flex flex-col justify-between border-t-4 border-t-emerald-400">
+                <!-- 關卡 3：淡紫色主題 -->
+                <div class="glass-panel glass-card-hover rounded-xl p-6 flex flex-col justify-between border-t-4 border-t-[#C4B5FD]">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300">LEVEL 03</span>
-                            <span class="text-xs text-slate-400 font-mono-code">Downward ToF</span>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded bg-violet-500/25 text-violet-200 border border-violet-300/40">LEVEL 03</span>
+                            <span class="text-xs text-violet-300 font-mono-code">Downward ToF</span>
                         </div>
                         <h4 class="text-lg font-bold text-white">下視 ToF 測距與降落</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed">
+                        <p class="text-xs text-violet-100/80 leading-relaxed">
                             終點大樓屋頂有水塔與 18° 斜坡屋頂。學習設計「巡航 ➔ 懸停對準 ➔ 坡度確認緩降」的三階段狀態機完成精準降落。
                         </p>
-                        <div class="pt-2 text-xs text-slate-400 space-y-1">
-                            <div>🔹 API: <code class="text-slate-200">get_downward_tof()</code></div>
-                            <div>🔹 練習重點：斜率判斷 <code class="text-emerald-300">slope_deg &lt; 5°</code></div>
+                        <div class="pt-2 text-xs text-violet-200/75 space-y-1">
+                            <div>🔹 API: <code class="text-violet-200">get_downward_tof()</code></div>
+                            <div>🔹 練習重點：斜率判斷 <code class="text-violet-300">slope_deg &lt; 5°</code></div>
                         </div>
                     </div>
-                    <a href="lab.html?level=3" class="mt-6 w-full py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-400 hover:text-slate-950 text-emerald-300 border border-emerald-500/40 text-center text-sm font-semibold transition">
+                    <a href="lab.html?level=3" class="mt-6 w-full py-2.5 rounded-lg bg-violet-500/25 hover:bg-violet-400 hover:text-slate-950 text-violet-200 border border-violet-300/40 text-center text-sm font-semibold transition">
                         進入關卡三 ➔
                     </a>
                 </div>
 
-                <!-- 關卡 4 -->
-                <div class="glass-panel glass-card-hover rounded-xl p-6 flex flex-col justify-between border-t-4 border-t-purple-400">
+                <!-- 關卡 4：三色融合主題 -->
+                <div class="glass-panel glass-card-hover rounded-xl p-6 flex flex-col justify-between border-t-4 border-t-teal-300">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold px-2.5 py-1 rounded bg-purple-500/20 text-purple-300">LEVEL 04</span>
-                            <span class="text-xs text-slate-400 font-mono-code">Sensor Fusion</span>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded bg-gradient-to-r from-[#005BAC] to-[#00A59B] text-white">LEVEL 04</span>
+                            <span class="text-xs text-violet-300 font-mono-code">Sensor Fusion</span>
                         </div>
                         <h4 class="text-lg font-bold text-white">多感測器融合綜合考驗</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed">
-                            結合前段晴天細電線、中段濃霧動態機群與終點複雜屋頂降落。根據感測器可靠度 (<code class="text-purple-300">stereo_quality</code>) 自動切換決策權重。
+                        <p class="text-xs text-violet-100/80 leading-relaxed">
+                            結合前段晴天細電線、中段濃霧動態機群與終點複雜屋頂降落。根據感測器可靠度 (<code class="text-teal-300">stereo_quality</code>) 自動切換決策權重。
                         </p>
-                        <div class="pt-2 text-xs text-slate-400 space-y-1">
-                            <div>🔹 API: <code class="text-slate-200">get_stereo_quality()</code></div>
+                        <div class="pt-2 text-xs text-violet-200/75 space-y-1">
+                            <div>🔹 API: <code class="text-teal-200">get_stereo_quality()</code></div>
                             <div>🔹 練習重點：全流程多感測器融合架構</div>
                         </div>
                     </div>
-                    <a href="lab.html?level=4" class="mt-6 w-full py-2.5 rounded-lg bg-purple-500/20 hover:bg-purple-400 hover:text-slate-950 text-purple-300 border border-purple-500/40 text-center text-sm font-semibold transition">
+                    <a href="lab.html?level=4" class="mt-6 w-full py-2.5 rounded-lg btn-fubon-aqua text-center text-sm font-semibold">
                         進入綜合考驗 ➔
                     </a>
                 </div>
@@ -158,40 +165,42 @@
         </section>
 
         <!-- 三大感測器規格對照表 -->
-        <section class="glass-panel rounded-2xl p-6 border border-slate-800">
-            <h3 class="text-base font-bold text-white mb-4">📊 現代物流無人機三大感測器物理特性對照表</h3>
+        <section class="glass-panel rounded-2xl p-6 border border-violet-300/25">
+            <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+                <span>📊 現代物流無人機三大感測器物理特性對照表</span>
+            </h3>
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs text-slate-300 border-collapse">
+                <table class="w-full text-left text-xs text-violet-100 border-collapse">
                     <thead>
-                        <tr class="border-b border-slate-700 text-slate-400">
-                            <th class="py-3 px-4">感測器名稱</th>
+                        <tr class="border-b border-violet-300/25 text-violet-300 bg-[#005BAC]/20">
+                            <th class="py-3 px-4 rounded-tl-lg">感測器名稱</th>
                             <th class="py-3 px-4">空間解析度</th>
                             <th class="py-3 px-4">惡劣天候 (濃霧/豪雨)</th>
                             <th class="py-3 px-4">速度偵測能力</th>
-                            <th class="py-3 px-4">核心應用場景</th>
+                            <th class="py-3 px-4 rounded-tr-lg">核心應用場景</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-800/80">
-                        <tr>
-                            <td class="py-3 px-4 font-semibold text-sky-400">雙目立體視覺 (Stereo Vision)</td>
-                            <td class="py-3 px-4 text-emerald-400">極高 (16×16 稠密深度圖)</td>
-                            <td class="py-3 px-4 text-red-400">極差 (光學散射產生嚴重雜訊)</td>
-                            <td class="py-3 px-4">無直接速度，需靠多幀差分</td>
-                            <td class="py-3 px-4">偵測極細高壓電線、樹枝與複雜靜態幾何輪廓</td>
+                    <tbody class="divide-y divide-violet-300/15">
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="py-3.5 px-4 font-semibold text-sky-300">雙目立體視覺 (Stereo Vision)</td>
+                            <td class="py-3.5 px-4 text-teal-300">極高 (16×16 稠密深度圖)</td>
+                            <td class="py-3.5 px-4 text-rose-300">極差 (光學散射產生嚴重雜訊)</td>
+                            <td class="py-3.5 px-4">無直接速度，需靠多幀差分</td>
+                            <td class="py-3.5 px-4">偵測極細高壓電線、樹枝與複雜靜態幾何輪廓</td>
                         </tr>
-                        <tr>
-                            <td class="py-3 px-4 font-semibold text-amber-400">4D 毫米波雷達 (4D mmWave)</td>
-                            <td class="py-3 px-4 text-amber-300">中低 (稀疏目標點雲)</td>
-                            <td class="py-3 px-4 text-emerald-400">極佳 (電磁波穿透雨霧)</td>
-                            <td class="py-3 px-4 text-emerald-400">直接量測都卜勒相對速度 (vx, vz)</td>
-                            <td class="py-3 px-4">全天候動態飛鳥、巡邏機軌跡預判與碰撞預警 (TTC)</td>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="py-3.5 px-4 font-semibold text-teal-300">4D 毫米波雷達 (4D mmWave)</td>
+                            <td class="py-3.5 px-4 text-violet-200">中低 (稀疏目標點雲)</td>
+                            <td class="py-3.5 px-4 text-teal-300">極佳 (電磁波穿透雨霧)</td>
+                            <td class="py-3.5 px-4 text-teal-300">直接量測都卜勒相對速度 (vx, vz)</td>
+                            <td class="py-3.5 px-4">全天候動態飛鳥、巡邏機軌跡預判與碰撞預警 (TTC)</td>
                         </tr>
-                        <tr>
-                            <td class="py-3 px-4 font-semibold text-emerald-400">下視飛時測距 (Downward ToF)</td>
-                            <td class="py-3 px-4">局部高精準度 (對地錐形掃描)</td>
-                            <td class="py-3 px-4 text-amber-300">中等 (短距離內受影響較小)</td>
-                            <td class="py-3 px-4">提供垂直下降率參考</td>
-                            <td class="py-3 px-4">降落階段對地高度、屋頂斜率檢測與停機坪對位</td>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="py-3.5 px-4 font-semibold text-violet-300">下視飛時測距 (Downward ToF)</td>
+                            <td class="py-3.5 px-4">局部高精準度 (對地錐形掃描)</td>
+                            <td class="py-3.5 px-4 text-violet-200">中等 (短距離內受影響較小)</td>
+                            <td class="py-3.5 px-4">提供垂直下降率參考</td>
+                            <td class="py-3.5 px-4">降落階段對地高度、屋頂斜率檢測與停機坪對位</td>
                         </tr>
                     </tbody>
                 </table>
@@ -200,39 +209,39 @@
     </main>
 
     <!-- 教師教學指引 Modal -->
-    <div id="teacherModal" class="hidden fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4">
-        <div class="glass-panel max-w-3xl w-full rounded-2xl p-6 border border-amber-500/40 space-y-4 max-h-[85vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b border-slate-700 pb-3">
-                <h3 class="text-lg font-bold text-amber-300">👨‍🏫 教師課堂帶課四部曲（建議 2 節課）</h3>
-                <button onclick="document.getElementById('teacherModal').classList.add('hidden')" class="text-slate-400 hover:text-white text-xl">&times;</button>
+    <div id="teacherModal" class="hidden fixed inset-0 z-50 bg-[#040d1a]/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel max-w-3xl w-full rounded-2xl p-6 border border-violet-300/40 space-y-4 max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-violet-300/20 pb-3">
+                <h3 class="text-lg font-bold text-violet-200">👨‍🏫 教師課堂帶課四部曲（建議 2 節課）</h3>
+                <button onclick="document.getElementById('teacherModal').classList.add('hidden')" class="text-violet-300 hover:text-white text-xl">&times;</button>
             </div>
-            <div class="space-y-4 text-xs text-slate-200 leading-relaxed">
-                <div class="p-3.5 rounded-lg bg-slate-900/90 border border-slate-700">
-                    <h4 class="font-bold text-sky-400 mb-1">Step 1：先體驗「填空練習預設值」為什麼會失敗</h4>
+            <div class="space-y-4 text-xs text-violet-100 leading-relaxed">
+                <div class="p-4 rounded-xl bg-[#07162c]/90 border border-sky-400/30">
+                    <h4 class="font-bold text-sky-300 mb-1">Step 1：先體驗「填空練習預設值」為什麼會失敗</h4>
                     <p>每個關卡預設載入的是<strong>「📝 學生填空練習 (TODO)」</strong>。請學生先不要改程式碼，直接按「執行」，觀察：</p>
-                    <ul class="list-disc list-inside mt-1 text-slate-300 space-y-1">
-                        <li><strong>關卡一</strong>預設轉向倍率是 <code>0.15</code>（太遲鈍），無人機會擦撞電線。引導學生調大到 <code>0.65</code>。</li>
+                    <ul class="list-disc list-inside mt-1.5 text-violet-100/85 space-y-1">
+                        <li><strong>關卡一</strong>預設轉向倍率是 <code>0.20</code>（太遲鈍），無人機會擦撞電線。引導學生調大到 <code>0.65</code>。</li>
                         <li><strong>關卡二</strong>預設預判時間是 <code>0.0 秒</code>（只看現在位置），無人機會跟橫向移動的飛鳥迎頭撞上。引導學生改為 <code>1.5 秒</code>。</li>
-                        <li><strong>關卡三</strong>預設降落判斷為 <code>false</code>，無人機會停在屋頂上方不降落；若亂設 <code>true</code> 則會撞上斜坡或水塔。</li>
+                        <li><strong>關卡三</strong>預設下降速度為 <code>-0.2</code>，引導學生觀察坡度條件並將下降速度改為 <code>-2.2</code>。</li>
                     </ul>
                 </div>
-                <div class="p-3.5 rounded-lg bg-slate-900/90 border border-slate-700">
-                    <h4 class="font-bold text-emerald-400 mb-1">Step 2：善用實驗室右側「No-Code 即時參數調校滑桿」</h4>
-                    <p>若班上同學對直接改 JavaScript 感到陌生，可請他們先拉動實驗室介面上的<strong>三個即時滑桿</strong>（轉向增益、雷達預判秒數、危險減速距離），邊飛邊觀察行為改變，找到最佳數值後再填回程式碼中。</p>
+                <div class="p-4 rounded-xl bg-[#07162c]/90 border border-teal-400/30">
+                    <h4 class="font-bold text-teal-300 mb-1">Step 2：善用實驗室左側「No-Code 即時參數調校滑桿」</h4>
+                    <p>若班上同學對直接改 JavaScript 感到陌生，可請他們先拉動實驗室介面上的<strong>三個即時滑桿</strong>（轉向靈敏度、雷達預判秒數、允許降落坡度），邊飛邊觀察行為改變，找到最佳數值後再填回程式碼中。</p>
                 </div>
-                <div class="p-3.5 rounded-lg bg-slate-900/90 border border-slate-700">
-                    <h4 class="font-bold text-purple-400 mb-1">Step 3：天氣干擾破壞性實驗</h4>
-                    <p>在關卡一通過後，請學生按下頂部的「🌧️ 切換濃霧豪雨」，讓學生親眼看見雙目視覺 HUD 出現大量紅藍雜訊，無人機開始原地亂晃，自然引出關卡二「4D 毫米波雷達」的必要性。</p>
+                <div class="p-4 rounded-xl bg-[#07162c]/90 border border-violet-400/30">
+                    <h4 class="font-bold text-violet-300 mb-1">Step 3：天氣干擾破壞性實驗</h4>
+                    <p>在關卡一通過後，請學生按下頂部的「🌧️ 切換濃霧豪雨」，讓學生親眼看見雙目視覺 HUD 出現大量散射雜訊，自然引出關卡二「4D 毫米波雷達」的全天候優勢。</p>
                 </div>
             </div>
             <div class="flex justify-end pt-2">
-                <button onclick="document.getElementById('teacherModal').classList.add('hidden')" class="px-5 py-2 rounded-lg bg-amber-500 text-slate-950 font-semibold text-xs">我知道了</button>
+                <button onclick="document.getElementById('teacherModal').classList.add('hidden')" class="px-5 py-2 rounded-lg btn-fubon-aqua font-semibold text-xs">我知道了</button>
             </div>
         </div>
     </div>
 
-    <footer class="border-t border-slate-800/80 py-4 px-6 text-center text-xs text-slate-500">
-        Drone Sensor Lab • 專為高中自主無人機演算法課程設計 • 支援 GitHub Pages 靜態部署
+    <footer class="border-t border-violet-300/15 py-4 px-6 text-center text-xs text-violet-300/60">
+        Drone Sensor Lab • 富邦藍 × 湖水綠 × 淡紫科技視覺主題 • 支援 GitHub Pages 靜態部署
     </footer>
 </body>
 </html>
