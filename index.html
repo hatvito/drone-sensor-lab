@@ -20,7 +20,7 @@
                     <span class="text-sm font-extrabold uppercase tracking-widest text-[#00897B]">都會避障挑戰賽・前置訓練模組</span>
                     <h1 class="text-3xl font-black text-slate-900 tracking-tight">
                         無人機進階感測器實驗室 
-                        <span class="text-purple-800 font-bold text-lg ml-2">Drone Sensor Lab v2.0</span>
+                        <span class="text-purple-800 font-bold text-lg ml-2">Drone Sensor Lab v3.0</span>
                     </h1>
                 </div>
             </div>
@@ -42,14 +42,14 @@
         <section class="glass-panel rounded-3xl p-10 border border-blue-500/30 relative overflow-hidden shadow-xl">
             <div class="grid md:grid-cols-3 gap-8 items-center relative z-10">
                 <div class="md:col-span-2 space-y-5">
-                    <div class="inline-flex items-center space-x-2 px-4.5 py-2 rounded-full badge-lavender text-sm font-extrabold">
-                        <span>🎯 訓練目標：掌握現代自主無人機（Amazon MK30 同級）感知與決策架構</span>
+                    <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full badge-lavender text-sm font-extrabold">
+                        <span>🎯 訓練目標：完整掌握現代自主無人機 6 大核心感知與避障演算法</span>
                     </div>
                     <h2 class="text-4xl font-black text-slate-900 leading-tight">
-                        為什麼單靠一顆鏡頭，無人機無法在真實城市生存？
+                        為什麼真實世界的自主無人機，需要六種互補的感測與視覺技術？
                     </h2>
                     <p class="text-slate-800 text-lg leading-relaxed font-semibold">
-                        在進入複雜的都會叢林之前，你必須先學會解讀三種互補的感測器資料：用<strong class="text-[#005BAC]">雙目深度矩陣</strong>閃避極細高壓電線、用<strong class="text-[#00897B]">4D 毫米波雷達</strong>在濃霧暴雨中預判動態飛鳥軌跡，並透過<strong class="text-purple-800">下視 ToF 測距</strong>避開屋頂水塔與斜坡完成精準降落。
+                        在進入千棟建築的都會叢林前，你將依序掌握：<strong class="text-[#005BAC]">雙目立體深度矩陣</strong>（抓細電線）、<strong class="text-[#00897B]">4D 毫米波都卜勒雷達</strong>（抓濃霧動態飛鳥）、<strong class="text-purple-800">下視 ToF 測距</strong>（屋頂斜率降落）、<strong class="text-indigo-700">3D 光達點雲</strong>（突破濃霧抓靜止柱體）、<strong class="text-amber-700">四周近距超音波陣列</strong>（側風夾縫反彈），以及極限狀態下的<strong class="text-rose-700">單眼迴旋光流與運動視差避障</strong>！
                     </p>
                 </div>
                 <div class="bg-red-50 border-2 border-red-300 rounded-2xl p-7 space-y-3.5 shadow-inner">
@@ -58,34 +58,34 @@
                         <span class="px-3 py-1 text-sm rounded-xl bg-red-100 text-red-800 font-mono-code font-extrabold border border-red-300">MAX_ALT = 18.0m</span>
                     </div>
                     <p class="text-sm text-red-950 leading-relaxed font-bold">
-                        實驗室上方 <strong class="text-red-700 text-base">18 公尺處設有防護雷射限高網格</strong>。企圖把高度拉高直接飛越障礙物將觸發違規攔截！所有避障演算法皆須在低空走廊內完成。
+                        實驗室上方 <strong class="text-red-700 text-base">18 公尺處設有防護雷射限高網格</strong>。企圖把高度拉高直接飛越障礙物將觸發違規攔截！且禁用事先寫死的地圖座標，必須完全依賴感測器即時回傳數據進行反應式避障。
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- 四大訓練關卡卡片 -->
+        <!-- 六大訓練關卡卡片 -->
         <section class="space-y-6">
             <h3 class="text-2xl font-black text-slate-900 flex items-center gap-3">
-                <span>🕹️ 選擇實訓關卡</span>
-                <span class="text-sm font-bold text-slate-600">（點擊卡片即可進入對應感測器實驗室）</span>
+                <span>🕹️ 選擇實訓關卡（六大感測器循序實作）</span>
+                <span class="text-sm font-bold text-slate-600">（每關皆提供「學生填空練習 TODO」與「隱藏程式碼自動演示」）</span>
             </h3>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- 關卡 1 -->
                 <div class="glass-panel glass-card-hover rounded-3xl p-7 flex flex-col justify-between border-t-8 border-t-[#005BAC] shadow-lg">
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
                             <span class="text-sm font-extrabold px-3 py-1 rounded-xl bg-blue-100 text-[#005BAC] border border-blue-300">LEVEL 01</span>
-                            <span class="text-sm text-slate-600 font-mono-code font-bold">16×16 Matrix</span>
+                            <span class="text-sm text-slate-600 font-mono-code font-bold">Stereo 16×16</span>
                         </div>
                         <h4 class="text-2xl font-black text-slate-900">雙目立體視覺相機</h4>
-                        <p class="text-sm text-slate-700 leading-relaxed font-semibold">
-                            晴朗環境下，前方佈滿極細高壓電線與樹枝。學習使用 <code class="text-[#005BAC] font-black">4×4 滑動視窗</code> 找出最大安全連通區域並轉換為轉向速度。
+                        <p class="text-base text-slate-700 leading-relaxed font-semibold">
+                            晴朗環境下，前方佈滿極細高壓電線與樹枝。使用 <code class="text-[#005BAC] font-black">4×4 滑動視窗</code> 找出最大安全連通區域並轉換為轉向速度。
                         </p>
-                        <div class="pt-2 text-sm text-slate-700 space-y-1.5 font-bold">
+                        <div class="pt-2 text-sm text-slate-700 space-y-1 font-bold">
                             <div>🔹 API: <code class="text-[#005BAC]">get_stereo_depth_map()</code></div>
-                            <div>🔹 練習重點：轉向倍率與安全減速距離</div>
+                            <div>🔹 練習重點：滑動視窗尋路與轉向靈敏度</div>
                         </div>
                     </div>
                     <a href="lab.html?level=1" class="mt-8 w-full py-3.5 rounded-2xl bg-blue-50 hover:bg-[#005BAC] text-[#005BAC] hover:text-white border-2 border-blue-200 text-center text-base font-extrabold transition shadow-sm">
@@ -101,12 +101,12 @@
                             <span class="text-sm text-slate-600 font-mono-code font-bold">Doppler Radar</span>
                         </div>
                         <h4 class="text-2xl font-black text-slate-900">4D 毫米波雷達</h4>
-                        <p class="text-sm text-slate-700 leading-relaxed font-semibold">
-                            濃霧豪雨導致光學鏡頭充滿雜訊失效！利用全天候毫米波雷達回傳的<strong class="text-[#00897B]">都卜勒相對速度</strong>，預判橫向移動飛鳥與巡邏機的未來位置。
+                        <p class="text-base text-slate-700 leading-relaxed font-semibold">
+                            濃霧豪雨導致光學鏡頭充滿雜訊失效！利用全天候毫米波雷達回傳的<strong class="text-[#00897B]">都卜勒相對速度</strong>，預判橫向移動飛鳥與巡邏機的未來軌跡。
                         </p>
-                        <div class="pt-2 text-sm text-slate-700 space-y-1.5 font-bold">
+                        <div class="pt-2 text-sm text-slate-700 space-y-1 font-bold">
                             <div>🔹 API: <code class="text-[#00897B]">get_4d_radar_detections()</code></div>
-                            <div>🔹 練習重點：未來軌跡預判公式</div>
+                            <div>🔹 練習重點：未來位置預判 <code class="text-[#00897B]">x + vx * dt</code></div>
                         </div>
                     </div>
                     <a href="lab.html?level=2" class="mt-8 w-full py-3.5 rounded-2xl bg-teal-50 hover:bg-[#00897B] text-[#00897B] hover:text-white border-2 border-teal-200 text-center text-base font-extrabold transition shadow-sm">
@@ -122,10 +122,10 @@
                             <span class="text-sm text-slate-600 font-mono-code font-bold">Downward ToF</span>
                         </div>
                         <h4 class="text-2xl font-black text-slate-900">下視 ToF 測距與降落</h4>
-                        <p class="text-sm text-slate-700 leading-relaxed font-semibold">
-                            終點大樓屋頂有水塔與 18° 斜坡屋頂。學習設計「巡航 ➔ 懸停對準 ➔ 坡度確認緩降」的三階段狀態機完成精準降落。
+                        <p class="text-base text-slate-700 leading-relaxed font-semibold">
+                            終點大樓屋頂有水塔與 18° 斜坡屋頂。設計「巡航 ➔ 避開水塔對準 ➔ 坡度確認緩降」的三階段狀態機完成精準降落。
                         </p>
-                        <div class="pt-2 text-sm text-slate-700 space-y-1.5 font-bold">
+                        <div class="pt-2 text-sm text-slate-700 space-y-1 font-bold">
                             <div>🔹 API: <code class="text-purple-800">get_downward_tof()</code></div>
                             <div>🔹 練習重點：斜率判斷 <code class="text-purple-800">slope_deg &lt; 5°</code></div>
                         </div>
@@ -139,60 +139,123 @@
                 <div class="glass-panel glass-card-hover rounded-3xl p-7 flex flex-col justify-between border-t-8 border-t-indigo-600 shadow-lg">
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
-                            <span class="text-sm font-extrabold px-3 py-1 rounded-xl bg-gradient-to-r from-[#005BAC] to-[#00897B] text-white">LEVEL 04</span>
-                            <span class="text-sm text-slate-600 font-mono-code font-bold">Sensor Fusion</span>
+                            <span class="text-sm font-extrabold px-3 py-1 rounded-xl bg-indigo-100 text-indigo-800 border border-indigo-300">LEVEL 04</span>
+                            <span class="text-sm text-slate-600 font-mono-code font-bold">3D LiDAR Raycast</span>
                         </div>
-                        <h4 class="text-2xl font-black text-slate-900">多感測器融合綜合考驗</h4>
-                        <p class="text-sm text-slate-700 leading-relaxed font-semibold">
-                            結合前段晴天細電線、中段濃霧動態機群與終點複雜屋頂降落。根據感測器可靠度 (<code class="text-indigo-700 font-black">stereo_quality</code>) 自動切換決策權重。
+                        <h4 class="text-2xl font-black text-slate-900">3D 光達點雲與多感測融合</h4>
+                        <p class="text-base text-slate-700 leading-relaxed font-semibold">
+                            都卜勒雷達看不見「靜止柱體」，濃霧又讓雙目相機失效！利用主動發射的 15 道扇形雷射點雲，在濃霧中精準抓出靜止大橋柱並閃避。
                         </p>
-                        <div class="pt-2 text-sm text-slate-700 space-y-1.5 font-bold">
-                            <div>🔹 API: <code class="text-indigo-700">get_stereo_quality()</code></div>
-                            <div>🔹 練習重點：全流程多感測器融合架構</div>
+                        <div class="pt-2 text-sm text-slate-700 space-y-1 font-bold">
+                            <div>🔹 API: <code class="text-indigo-700">get_lidar_scan()</code></div>
+                            <div>🔹 練習重點：主動光達射線排斥力場避障</div>
                         </div>
                     </div>
-                    <a href="lab.html?level=4" class="mt-8 w-full py-3.5 rounded-2xl btn-fubon-aqua text-center text-base font-extrabold shadow-md">
-                        進入綜合考驗 ➔
+                    <a href="lab.html?level=4" class="mt-8 w-full py-3.5 rounded-2xl bg-indigo-50 hover:bg-indigo-600 text-indigo-800 hover:text-white border-2 border-indigo-200 text-center text-base font-extrabold transition shadow-sm">
+                        進入關卡四 ➔
+                    </a>
+                </div>
+
+                <!-- 關卡 5 -->
+                <div class="glass-panel glass-card-hover rounded-3xl p-7 flex flex-col justify-between border-t-8 border-t-amber-600 shadow-lg">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-extrabold px-3 py-1 rounded-xl bg-amber-100 text-amber-800 border border-amber-300">LEVEL 05</span>
+                            <span class="text-sm text-slate-600 font-mono-code font-bold">Proximity Sonar</span>
+                        </div>
+                        <h4 class="text-2xl font-black text-slate-900">四周近距防撞陣列</h4>
+                        <p class="text-base text-slate-700 leading-relaxed font-semibold">
+                            穿越狹窄的都會高樓夾縫，且有強烈亂流側風不斷將機身推向大樓牆面！利用機身四周超音波測距，實作「反應式反彈」保命防線。
+                        </p>
+                        <div class="pt-2 text-sm text-slate-700 space-y-1 font-bold">
+                            <div>🔹 API: <code class="text-amber-700">get_proximity()</code></div>
+                            <div>🔹 練習重點：四向安全距離與斥力反彈控制</div>
+                        </div>
+                    </div>
+                    <a href="lab.html?level=5" class="mt-8 w-full py-3.5 rounded-2xl bg-amber-50 hover:bg-amber-600 text-amber-800 hover:text-white border-2 border-amber-200 text-center text-base font-extrabold transition shadow-sm">
+                        進入關卡五 ➔
+                    </a>
+                </div>
+
+                <!-- 關卡 6 -->
+                <div class="glass-panel glass-card-hover rounded-3xl p-7 flex flex-col justify-between border-t-8 border-t-rose-600 shadow-lg">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-extrabold px-3 py-1 rounded-xl bg-rose-100 text-rose-800 border border-rose-300">LEVEL 06</span>
+                            <span class="text-sm text-slate-600 font-mono-code font-bold">Optical Flow</span>
+                        </div>
+                        <h4 class="text-2xl font-black text-slate-900">光流備援與視差避障</h4>
+                        <p class="text-base text-slate-700 leading-relaxed font-semibold">
+                            極限災難考驗：深度計算、雷達與光達全數離線！模仿蜜蜂複眼視覺，追蹤單眼畫面中障礙物特徵點的「像素膨脹與橫移速率」即時閃避。
+                        </p>
+                        <div class="pt-2 text-sm text-slate-700 space-y-1 font-bold">
+                            <div>🔹 API: <code class="text-rose-700">get_optical_flow()</code></div>
+                            <div>🔹 練習重點：運動視差 (Motion Parallax) 避障</div>
+                        </div>
+                    </div>
+                    <a href="lab.html?level=6" class="mt-8 w-full py-3.5 rounded-2xl bg-rose-50 hover:bg-rose-600 text-rose-800 hover:text-white border-2 border-rose-200 text-center text-base font-extrabold transition shadow-sm">
+                        進入關卡六 ➔
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- 三大感測器規格對照表 -->
+        <!-- 六大感測器規格對照表 -->
         <section class="glass-panel rounded-3xl p-9 border border-blue-500/20 shadow-xl">
-            <h3 class="text-xl font-black text-slate-900 mb-6">📊 現代物流無人機三大感測器物理特性對照表</h3>
+            <h3 class="text-xl font-black text-slate-900 mb-6">📊 現代自主無人機六大感知技術物理特性對照表</h3>
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-base text-slate-800 border-collapse">
                     <thead>
                         <tr class="border-b-2 border-slate-300 text-[#005BAC] bg-blue-50/80 font-black">
-                            <th class="py-4 px-5 rounded-tl-2xl">感測器名稱</th>
-                            <th class="py-4 px-5">空間解析度</th>
-                            <th class="py-4 px-5">惡劣天候 (濃霧/豪雨)</th>
-                            <th class="py-4 px-5">速度偵測能力</th>
-                            <th class="py-4 px-5 rounded-tr-2xl">核心應用場景</th>
+                            <th class="py-4 px-5 rounded-tl-2xl">感測器 / 演算法</th>
+                            <th class="py-4 px-5">物理原理</th>
+                            <th class="py-4 px-5">濃霧與豪雨表現</th>
+                            <th class="py-4 px-5">對「靜止柱體」偵測</th>
+                            <th class="py-4 px-5 rounded-tr-2xl">核心互補角色</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 font-semibold">
                         <tr class="hover:bg-blue-50/40 transition">
-                            <td class="py-4.5 px-5 font-black text-[#005BAC]">雙目立體視覺 (Stereo Vision)</td>
-                            <td class="py-4.5 px-5 text-[#00897B] font-bold">極高 (16×16 稠密深度圖)</td>
-                            <td class="py-4.5 px-5 text-red-600 font-bold">極差 (光學散射產生嚴重雜訊)</td>
-                            <td class="py-4.5 px-5">無直接速度，需靠多幀差分</td>
-                            <td class="py-4.5 px-5">偵測極細高壓電線、樹枝與複雜靜態幾何輪廓</td>
+                            <td class="py-4 px-5 font-black text-[#005BAC]">1. 雙目立體視覺 (Stereo)</td>
+                            <td class="py-4 px-5">雙鏡頭視差三角測量</td>
+                            <td class="py-4 px-5 text-red-600 font-bold">極差 (光學散射雜訊)</td>
+                            <td class="py-4 px-5 text-[#00897B] font-bold">極佳 (連細電線都能抓)</td>
+                            <td class="py-4 px-5">晴天高解析度尋找可通行視窗</td>
                         </tr>
                         <tr class="hover:bg-teal-50/40 transition">
-                            <td class="py-4.5 px-5 font-black text-[#00897B]">4D 毫米波雷達 (4D mmWave)</td>
-                            <td class="py-4.5 px-5 text-slate-700">中低 (稀疏目標點雲)</td>
-                            <td class="py-4.5 px-5 text-[#00897B] font-bold">極佳 (電磁波穿透雨霧)</td>
-                            <td class="py-4.5 px-5 text-[#00897B] font-bold">直接量測都卜勒相對速度</td>
-                            <td class="py-4.5 px-5">全天候動態飛鳥、巡邏機軌跡預判與碰撞預警 (TTC)</td>
+                            <td class="py-4 px-5 font-black text-[#00897B]">2. 4D 毫米波雷達 (mmWave)</td>
+                            <td class="py-4 px-5">電磁波都卜勒頻移</td>
+                            <td class="py-4 px-5 text-[#00897B] font-bold">極佳 (全天候穿透)</td>
+                            <td class="py-4 px-5 text-red-600 font-bold">盲區 (過濾相對速度=0物體)</td>
+                            <td class="py-4 px-5">惡劣天候下預判動態飛鳥與來車軌跡</td>
                         </tr>
                         <tr class="hover:bg-purple-50/40 transition">
-                            <td class="py-4.5 px-5 font-black text-purple-800">下視飛時測距 (Downward ToF)</td>
-                            <td class="py-4.5 px-5">局部高精準度 (對地錐形掃描)</td>
-                            <td class="py-4.5 px-5 text-slate-700">中等 (短距離內受影響較小)</td>
-                            <td class="py-4.5 px-5">提供垂直下降率參考</td>
-                            <td class="py-4.5 px-5">降落階段對地高度、屋頂斜率檢測與停機坪對位</td>
+                            <td class="py-4 px-5 font-black text-purple-800">3. 下視飛時測距 (ToF)</td>
+                            <td class="py-4 px-5">紅外線光脈衝飛行時間</td>
+                            <td class="py-4 px-5 text-slate-700">中等 (短距堪用)</td>
+                            <td class="py-4 px-5 text-[#00897B] font-bold">極佳 (偵測屋頂水塔與斜坡)</td>
+                            <td class="py-4 px-5">最終降落階段之離地高度與平坦度確認</td>
+                        </tr>
+                        <tr class="hover:bg-indigo-50/40 transition">
+                            <td class="py-4 px-5 font-black text-indigo-700">4. 3D 光達掃描 (LiDAR)</td>
+                            <td class="py-4 px-5">多束雷射主動掃描測距</td>
+                            <td class="py-4 px-5 text-[#00897B] font-bold">良好 (強光束抗干擾)</td>
+                            <td class="py-4 px-5 text-[#00897B] font-bold">極佳 (無須相對速度即可測距)</td>
+                            <td class="py-4 px-5">彌補都卜勒雷達看不見靜止柱體的致命盲區</td>
+                        </tr>
+                        <tr class="hover:bg-amber-50/40 transition">
+                            <td class="py-4 px-5 font-black text-amber-700">5. 四周近距防撞 (Proximity)</td>
+                            <td class="py-4 px-5">超音波 / 短距紅外線陣列</td>
+                            <td class="py-4 px-5 text-[#00897B] font-bold">極佳 (聲波不受光學影響)</td>
+                            <td class="py-4 px-5 text-[#00897B] font-bold">極佳 (5m 內近迫牆面告警)</td>
+                            <td class="py-4 px-5">狹窄巷弄抗側風、防止擦撞牆壁的最後防線</td>
+                        </tr>
+                        <tr class="hover:bg-rose-50/40 transition">
+                            <td class="py-4 px-5 font-black text-rose-700">6. 單眼迴旋光流 (Optical Flow)</td>
+                            <td class="py-4 px-5">2D 影像特徵點像素移動率</td>
+                            <td class="py-4 px-5 text-slate-700">只要有邊緣對比即可運作</td>
+                            <td class="py-4 px-5 text-[#00897B] font-bold">佳 (愈近的柱子像素膨脹愈快)</td>
+                            <td class="py-4 px-5">當所有主動測距感測器故障時的仿生視覺備援</td>
                         </tr>
                     </tbody>
                 </table>
@@ -204,26 +267,25 @@
     <div id="teacherModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="glass-panel max-w-3xl w-full rounded-3xl p-9 border border-blue-500/40 space-y-6 max-h-[85vh] overflow-y-auto shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-300 pb-4">
-                <h3 class="text-2xl font-black text-[#005BAC]">👨‍🏫 教師課堂帶課四部曲（建議 2 節課）</h3>
+                <h3 class="text-2xl font-black text-[#005BAC]">👨‍🏫 教師課堂帶課指南（六大感測器實訓）</h3>
                 <button onclick="document.getElementById('teacherModal').classList.add('hidden')" class="text-slate-600 hover:text-slate-900 text-3xl font-bold">&times;</button>
             </div>
             <div class="space-y-5 text-base text-slate-800 leading-relaxed font-semibold">
                 <div class="p-5 rounded-2xl bg-blue-50/90 border border-blue-200 shadow-sm">
-                    <h4 class="font-extrabold text-[#005BAC] mb-2 text-lg">Step 1：先體驗「填空練習預設值」為什麼會失敗</h4>
-                    <p>學生預設載入的是<strong>「📝 學生填空練習 (TODO)」</strong>。請學生先不要改程式碼，直接按「執行」，觀察：</p>
-                    <ul class="list-disc list-inside mt-2 text-slate-800 space-y-2">
-                        <li><strong>關卡一</strong>預設轉向倍率是 <code>0.20</code>（太遲鈍），無人機會擦撞電線。引導學生調大到 <code>0.65</code>。</li>
-                        <li><strong>關卡二</strong>預設預判時間是 <code>0.0 秒</code>（只看現在位置），無人機會跟橫向移動的飛鳥迎頭撞上。引導學生改為 <code>1.5 秒</code>。</li>
-                        <li><strong>關卡三</strong>預設下降速度為 <code>-0.2</code>，引導學生觀察坡度條件並將下降速度改為 <code>-2.2</code>。</li>
+                    <h4 class="font-extrabold text-[#005BAC] mb-2 text-lg">1. 為什麼預設執行「學生程式」會撞上？</h4>
+                    <p>每個關卡的學生填空模板（TODO）都故意留了一個關鍵參數讓學生動手修正：</p>
+                    <ul class="list-disc list-inside mt-2 text-slate-800 space-y-1.5">
+                        <li><strong>L1 雙目視覺</strong>：預設轉向倍率 <code>0.20</code> 太小，調到 <code>0.65</code> 即可靈敏閃過電線。</li>
+                        <li><strong>L2 4D 雷達</strong>：預設預判秒數 <code>0.0s</code>，調到 <code>1.5s</code> 即可預判飛鳥未來位置。</li>
+                        <li><strong>L3 下視 ToF</strong>：預設下降速度 <code>-0.2</code> 太慢，且引導學生體驗避開屋頂水塔。</li>
+                        <li><strong>L4 3D 光達</strong>：預設排斥力道 <code>0.8</code> 太弱，改為 <code>5.5</code> 即可靠雷射點雲繞開靜止柱體。</li>
+                        <li><strong>L5 近距防撞</strong>：預設安全觸發距離 <code>1.2m</code> 太晚，改為 <code>3.8m</code> 即可抵抗強側風。</li>
+                        <li><strong>L6 光流備援</strong>：預設光流警戒門檻 <code>95 px/s</code> 太高，改為 <code>26 px/s</code> 即可提早發現近距離柱子。</li>
                     </ul>
                 </div>
                 <div class="p-5 rounded-2xl bg-teal-50/90 border border-teal-200 shadow-sm">
-                    <h4 class="font-extrabold text-[#00897B] mb-2 text-lg">Step 2：善用頂部「🚀 一鍵自動演示 (Auto-Demo)」</h4>
-                    <p>老師在示範講解時，可直接點擊實驗室右上方橘色的<strong>「🚀 一鍵自動演示」</strong>按鈕。此時無人機會以標準解答完美飛行，但<strong>學生編輯器內依然只會顯示 TODO 填空</strong>，不會把解答程式碼露出來！</p>
-                </div>
-                <div class="p-5 rounded-2xl bg-purple-50/90 border border-purple-200 shadow-sm">
-                    <h4 class="font-extrabold text-purple-800 mb-2 text-lg">Step 3：天氣干擾破壞性實驗</h4>
-                    <p>在關卡一通過後，請學生按下頂部的「🌧️ 切換濃霧豪雨」，讓學生親眼看見雙目視覺 HUD 出現大量散射雜訊，自然引出關卡二「4D 毫米波雷達」的全天候優勢。</p>
+                    <h4 class="font-extrabold text-[#00897B] mb-2 text-lg">2. 「🚀 一鍵自動演示 (隱藏解答)」功能</h4>
+                    <p>老師在講台示範或學生想看正確飛行軌跡時，點擊橘色<strong>「🚀 一鍵自動演示」</strong>按鈕，系統會在背景直接運行標準解答演算法完美過關，但<strong>左側程式碼編輯器依然維持學生的 TODO 練習畫面</strong>，不會洩漏解答程式碼！</p>
                 </div>
             </div>
             <div class="flex justify-end pt-2">
@@ -233,7 +295,7 @@
     </div>
 
     <footer class="border-t border-slate-300 py-6 px-8 text-center text-sm font-bold text-slate-600">
-        Drone Sensor Lab • 特大字體明亮高對比版 • 支援 GitHub Pages 靜態部署
+        Drone Sensor Lab v3.0 • 六大感測器完整教學版 • 支援 GitHub Pages 靜態部署
     </footer>
 </body>
 </html>
