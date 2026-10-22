@@ -290,7 +290,6 @@ window.LEVEL_DATA = {
         const targets = api.get_4d_radar_detections();
         for (let t of targets) {
             if (t.z_rel < 0 && t.dist < 32.0) {
-                // 📝 【TODO 4-1】請確認雷達預判秒數 (建議 1.4 秒)
                 const futureX = t.x_rel + t.rel_vx * 1.4;
                 if (Math.abs(futureX) < 5.5) {
                     vx += (futureX >= 0) ? -7.5 : 7.5;
@@ -336,6 +335,13 @@ window.LEVEL_DATA = {
         let vy = (7.5 - (bestR + 1.5)) * 0.45 * quality + (9.5 - pos.y) * 1.1;
         let vz = -8.8;
 
+        // 🛡️ 增加雙目深度矩陣中心距離過近時的緊急側向推開機制（針對垂直柱體防撞）
+        let centerDepth = (map[7][7] + map[7][8] + map[8][7] + map[8][8]) / 4.0;
+        if (centerDepth < 7.0) {
+            vx += (pos.x <= 0) ? 5.5 : -5.5; // 往開闊處側向閃避
+            vz = -4.0; // 減速通過
+        }
+
         const targets = api.get_4d_radar_detections();
         for (let t of targets) {
             if (t.z_rel < 0 && t.dist < 34.0) {
@@ -350,5 +356,4 @@ window.LEVEL_DATA = {
         return { vx, vy, vz };
     }
 }`
-    }
-};
+    },
