@@ -18,6 +18,7 @@
     let isRunning = false;
     let isBadWeather = false;
     let studentController = null;
+    let demoController = null; // 背景自動演示用的解答控制器
     const sensors = new window.SensorSuite();
 
     const droneState = {
@@ -25,11 +26,10 @@
         velocity: { vx: 0, vy: 0, vz: 0 }
     };
 
-    // 初始化 Three.js 場景 (明亮清新大氣藍背景)
     function initThree() {
         const container = document.getElementById('canvasContainer');
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x0f172a); // 3D 模擬器維持高對比深色背景以便凸顯感測器 HUD
+        scene.background = new THREE.Color(0x0f172a);
         scene.fog = new THREE.FogExp2(0x0f172a, 0.005);
 
         camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 300);
@@ -38,18 +38,15 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        // 明亮環境光與方向光
         scene.add(new THREE.AmbientLight(0xffffff, 0.85));
         const dirLight = new THREE.DirectionalLight(0x38bdf8, 1.1);
         dirLight.position.set(25, 50, 30);
         scene.add(dirLight);
 
-        // 地面跑道網格
         const grid = new THREE.GridHelper(220, 80, 0x00A59B, 0x1e293b);
         grid.position.set(0, 0, -80);
         scene.add(grid);
 
-        // 18m 限高防護網格 (明亮紅雷射光網)
         const ceilingGeo = new THREE.PlaneGeometry(36, 190, 12, 40);
         const ceilingMat = new THREE.MeshBasicMaterial({
             color: 0xef4444,
@@ -62,7 +59,6 @@
         ceilingMesh.position.set(0, MAX_ALTITUDE, -80);
         scene.add(ceilingMesh);
 
-        // 建立四軸物流無人機模型 (富邦藍機身 + 湖水綠光環)
         droneGroup = new THREE.Group();
         const bodyGeo = new THREE.BoxGeometry(1.4, 0.45, 1.4);
         const bodyMat = new THREE.MeshStandardMaterial({
@@ -75,7 +71,7 @@
         droneGroup.add(new THREE.Mesh(bodyGeo, bodyMat));
 
         const armGeo = new THREE.CylinderGeometry(0.08, 0.08, 2.2);
-        const armMat = new THREE.MeshBasicMaterial({ color: 0x7C3AED }); // 紫色機臂
+        const armMat = new THREE.MeshBasicMaterial({ color: 0x7C3AED });
         const arm1 = new THREE.Mesh(armGeo, armMat);
         arm1.rotation.z = Math.PI / 2;
         arm1.rotation.y = Math.PI / 4;
@@ -84,7 +80,6 @@
         droneGroup.add(arm1, arm2);
         scene.add(droneGroup);
 
-        // 雨霧粒子系統
         const rainGeo = new THREE.BufferGeometry();
         const rainPositions = new Float32Array(1200 * 3);
         for (let i = 0; i < 1200; i++) {
@@ -110,7 +105,6 @@
         });
     }
 
-    // 依據關卡建立 3D 障礙物
     function buildLevelScene(level) {
         while (obstacleGroup.children.length > 0) {
             obstacleGroup.remove(obstacleGroup.children[0]);
@@ -118,7 +112,6 @@
         staticObstacles = [];
         dynamicObstacles = [];
 
-        // 關卡 1 或 4：建立高壓細電線與柱體
         if (level === 1 || level === 4) {
             const wireMat = new THREE.MeshBasicMaterial({ color: 0xf43f5e });
             const wireConfigs = [
@@ -150,7 +143,6 @@
             });
         }
 
-        // 關卡 2 或 4：建立動態巡邏機與飛鳥
         if (level === 2 || level === 4) {
             const dynConfigs = [
                 { id: 1, z: -36, y: 8.5, x: -7, vx: 6.2, color: 0x00897B },
@@ -169,7 +161,6 @@
             });
         }
 
-        // 關卡 3 或 4：建立終點大樓屋頂、斜坡、水塔與停機坪
         if (level === 3 || level === 4) {
             const building = new THREE.Mesh(
                 new THREE.BoxGeometry(26, 8, 26),
@@ -216,8 +207,8 @@
         document.querySelectorAll('.level-btn').forEach(btn => {
             const active = Number(btn.dataset.level) === currentLevel;
             btn.className = active
-                ? 'level-btn px-3.5 py-1.5 rounded-lg text-xs font-bold btn-fubon-aqua transition shadow-sm'
-                : 'level-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-300 transition';
+                ? 'level-btn px-4 py-2 rounded-xl text-sm font-black btn-fubon-aqua transition shadow-sm'
+                : 'level-btn px-4 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-300 transition';
         });
 
         const info = window.LEVEL_DATA[currentLevel];
@@ -226,25 +217,15 @@
         document.getElementById('missionDesc').textContent = info.desc;
 
         setWeather(currentLevel === 2);
-        loadCodeTemplate('todo');
+        loadTodoOnly();
         resetDrone();
         buildLevelScene(currentLevel);
     }
 
-    function loadCodeTemplate(mode) {
+    function loadTodoOnly() {
         const info = window.LEVEL_DATA[currentLevel];
         const editor = document.getElementById('codeEditor');
-        const indicator = document.getElementById('codeModeIndicator');
-
-        if (mode === 'todo') {
-            editor.value = info.todo;
-            indicator.textContent = '目前模式：📝 學生填空練習 (TODO)';
-            indicator.className = 'text-xs text-purple-700 font-bold';
-        } else {
-            editor.value = info.solution;
-            indicator.textContent = '目前模式：💡 標準解答觀摩';
-            indicator.className = 'text-xs text-[#00897B] font-bold';
-        }
+        editor.value = info.todo; // 永遠只載入學生填空 TODO
     }
 
     function setWeather(bad) {
@@ -252,12 +233,12 @@
         const btn = document.getElementById('btnWeather');
         if (isBadWeather) {
             btn.textContent = '🌧️ 濃霧豪雨 (光學退化)';
-            btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold badge-lavender transition';
+            btn.className = 'px-4.5 py-2.5 rounded-2xl text-sm font-bold badge-lavender transition';
             scene.fog.density = 0.028;
             rainSystem.visible = true;
         } else {
             btn.textContent = '☀️ 晴朗無霧';
-            btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-50 text-[#005BAC] border border-blue-200 hover:bg-blue-100 transition';
+            btn.className = 'px-4.5 py-2.5 rounded-2xl text-sm font-bold bg-blue-50 text-[#005BAC] border-2 border-blue-200 hover:bg-blue-100 transition';
             scene.fog.density = 0.005;
             rainSystem.visible = false;
         }
@@ -268,21 +249,39 @@
         droneState.position = { x: 0, y: (currentLevel === 3 ? 12.0 : 8.5), z: 0 };
         droneState.velocity = { vx: 0, vy: 0, vz: 0 };
         updateDroneMesh();
-        setStatus('🟢 已重置無人機位置。修改程式碼或拉動上方滑桿後點擊「▶ 執行演算法」。', 'normal');
+        setStatus('🟢 已重置無人機位置。修改程式碼或拉動上方滑桿後點擊「執行學生程式」。', 'normal');
         document.getElementById('flightStateBadge').textContent = 'STANDBY';
     }
 
-    function compileAndRun() {
+    // 點擊「執行學生程式」：編譯學生編輯器內的程式碼
+    function compileAndRunStudent() {
         const code = document.getElementById('codeEditor').value;
         try {
             const CustomClass = new Function(`${code}; return StudentController;`)();
             studentController = new CustomClass();
+            demoController = null; // 清除演示模式
             resetDrone();
             isRunning = true;
-            document.getElementById('flightStateBadge').textContent = 'FLYING';
-            setStatus('🚀 演算法執行中... 即時讀取感測器 API 與控制輸出', 'running');
+            document.getElementById('flightStateBadge').textContent = 'FLYING (STUDENT)';
+            setStatus('🚀 學生程式執行中...', 'running');
         } catch (err) {
             setStatus(`❌ 語法錯誤：${err.message}`, 'error');
+        }
+    }
+
+    // 點擊「一鍵自動演示 (隱藏解答)」：在背景載入解答邏輯，但不更動編輯器
+    function compileAndRunDemo() {
+        const info = window.LEVEL_DATA[currentLevel];
+        try {
+            const DemoClass = new Function(`${info.solution}; return StudentController;`)();
+            demoController = new DemoClass();
+            studentController = null;
+            resetDrone();
+            isRunning = true;
+            document.getElementById('flightStateBadge').textContent = 'AUTO-DEMO';
+            setStatus('🚀【自動演示模式】解答在背景執行中（編輯器維持學生 TODO 畫面）', 'success');
+        } catch (err) {
+            setStatus(`❌ 演示載入錯誤：${err.message}`, 'error');
         }
     }
 
@@ -290,10 +289,10 @@
         const el = document.getElementById('statusText');
         el.textContent = msg;
         el.className = type === 'error'
-            ? 'text-red-600 font-bold'
+            ? 'text-red-600 font-extrabold'
             : type === 'success'
-            ? 'text-[#00897B] font-extrabold'
-            : 'text-slate-800';
+            ? 'text-[#00897B] font-black'
+            : 'text-slate-900';
     }
 
     function updateDroneMesh() {
@@ -345,27 +344,30 @@
         const tofData = sensors.computeDownwardToF(droneState.position, roofConfig);
         sensors.renderHUDs();
 
-        if (isRunning && studentController) {
-            const api = {
-                get_stereo_depth_map: () => depthMap,
-                get_4d_radar_detections: () => radarList,
-                get_downward_tof: () => tofData,
-                get_stereo_quality: () => sensors.stereoQuality,
-                set_debug_window: (r, c) => { sensors.debugWindow = { r, c }; }
-            };
+        if (isRunning) {
+            const activeController = demoController || studentController;
+            if (activeController) {
+                const api = {
+                    get_stereo_depth_map: () => depthMap,
+                    get_4d_radar_detections: () => radarList,
+                    get_downward_tof: () => tofData,
+                    get_stereo_quality: () => sensors.stereoQuality,
+                    set_debug_window: (r, c) => { sensors.debugWindow = { r, c }; }
+                };
 
-            try {
-                const cmd = studentController.get_velocity(
-                    { level: currentLevel, position: { ...droneState.position }, velocity: { ...droneState.velocity } },
-                    api
-                ) || { vx: 0, vy: 0, vz: 0 };
+                try {
+                    const cmd = activeController.get_velocity(
+                        { level: currentLevel, position: { ...droneState.position }, velocity: { ...droneState.velocity } },
+                        api
+                    ) || { vx: 0, vy: 0, vz: 0 };
 
-                droneState.velocity.vx = Math.max(-12, Math.min(12, Number(cmd.vx) || 0));
-                droneState.velocity.vy = Math.max(-6, Math.min(6, Number(cmd.vy) || 0));
-                droneState.velocity.vz = Math.max(-14, Math.min(5, Number(cmd.vz) || 0));
-            } catch (e) {
-                isRunning = false;
-                setStatus(`❌ 執行期錯誤：${e.message}`, 'error');
+                    droneState.velocity.vx = Math.max(-12, Math.min(12, Number(cmd.vx) || 0));
+                    droneState.velocity.vy = Math.max(-6, Math.min(6, Number(cmd.vy) || 0));
+                    droneState.velocity.vz = Math.max(-14, Math.min(5, Number(cmd.vz) || 0));
+                } catch (e) {
+                    isRunning = false;
+                    setStatus(`❌ 執行期錯誤：${e.message}`, 'error');
+                }
             }
 
             droneState.position.x += droneState.velocity.vx * dt;
@@ -442,12 +444,10 @@
             btn.addEventListener('click', () => selectLevel(btn.dataset.level));
         });
 
-        document.getElementById('btnRun').addEventListener('click', compileAndRun);
+        document.getElementById('btnRun').addEventListener('click', compileAndRunStudent);
+        document.getElementById('btnAutoDemo').addEventListener('click', compileAndRunDemo);
         document.getElementById('btnReset').addEventListener('click', resetDrone);
         document.getElementById('btnWeather').addEventListener('click', () => setWeather(!isBadWeather));
-
-        document.getElementById('btnLoadTodo').addEventListener('click', () => loadCodeTemplate('todo'));
-        document.getElementById('btnLoadSolution').addEventListener('click', () => loadCodeTemplate('solution'));
 
         document.getElementById('toggleStereo').addEventListener('change', e => { sensors.stereoEnabled = e.target.checked; });
         document.getElementById('toggleRadar').addEventListener('change', e => { sensors.radarEnabled = e.target.checked; });
