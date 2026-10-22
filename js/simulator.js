@@ -115,7 +115,6 @@
         staticObstacles = [];
         dynamicObstacles = [];
 
-        // 關卡 1 & 4：高壓細電線與靜止垂直柱體
         if (level === 1 || level === 4) {
             const wireMat = new THREE.MeshBasicMaterial({ color: 0xf43f5e });
             const wireConfigs = [
@@ -147,7 +146,6 @@
             });
         }
 
-        // 關卡 2 & 4：橫向移動動態飛鳥與巡邏機
         if (level === 2 || level === 4) {
             const dynConfigs = [
                 { id: 1, z: -36, y: 8.5, x: -7, vx: 6.2, color: 0x00A59B },
@@ -166,7 +164,6 @@
             });
         }
 
-        // 關卡 3 & 4：終點大樓屋頂、斜坡、水塔與停機坪
         if (level === 3 || level === 4) {
             const building = new THREE.Mesh(
                 new THREE.BoxGeometry(26, 8, 26),
@@ -198,7 +195,6 @@
             obstacleGroup.add(padMesh);
         }
 
-        // 關卡 5：高樓峽谷走廊與交錯凸出牆體
         if (level === 5) {
             const wallMat = new THREE.MeshStandardMaterial({ color: 0x334155, transparent: true, opacity: 0.85 });
             const leftWall = new THREE.Mesh(new THREE.BoxGeometry(2, 16, 140), wallMat);
@@ -210,7 +206,6 @@
             staticObstacles.push({ x: -7.5, y: 8, z: -70, hx: 1.0, hy: 8.0, hz: 70.0 });
             staticObstacles.push({ x: 7.5, y: 8, z: -70, hx: 1.0, hy: 8.0, hz: 70.0 });
 
-            // 巷弄內交錯障礙物
             const blocks = [
                 { x: -2.8, z: -42 },
                 { x: 2.8, z: -76 },
@@ -225,7 +220,6 @@
             });
         }
 
-        // 關卡 6：單眼光流運動視差柱陣
         if (level === 6) {
             const flowPoles = [
                 { x: 0.4, z: -32 },
@@ -242,7 +236,6 @@
             });
         }
 
-        // 關卡 1, 2, 5, 6 終點線 (Z = -135m)
         if (level !== 3 && level !== 4) {
             const goalMesh = new THREE.Mesh(
                 new THREE.BoxGeometry(24, 0.4, 1.2),
@@ -264,6 +257,18 @@
                 ? 'level-btn px-3 py-1.5 rounded-xl text-sm font-black btn-fubon-aqua transition shadow-sm'
                 : 'level-btn px-3 py-1.5 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-300 transition';
         });
+
+        // 高亮對應關卡的 HUD 小視窗
+        for (let i = 1; i <= 6; i++) {
+            const card = document.getElementById(`cardHud${i}`);
+            if (card) {
+                if (i === currentLevel) {
+                    card.classList.add('ring-4', 'ring-amber-400', 'scale-[1.02]');
+                } else {
+                    card.classList.remove('ring-4', 'ring-amber-400', 'scale-[1.02]');
+                }
+            }
+        }
 
         const info = window.LEVEL_DATA[currentLevel];
         document.getElementById('missionTitle').textContent = info.title;
@@ -397,7 +402,7 @@
         const depthMap = sensors.computeStereoDepthMap(droneState.position, staticObstacles, dynamicObstacles, isBadWeather, currentLevel);
         const radarList = sensors.compute4DRadarDetections(droneState.position, droneState.velocity, dynamicObstacles, currentLevel);
         const tofData = sensors.computeDownwardToF(droneState.position, roofConfig);
-        const lidarScan = sensors.computeLidarScan(droneState.position, staticObstacles, dynamicObstacles);
+        const lidarScan = sensors.computeLidarScan(droneState.position, staticObstacles, dynamicObstacles, currentLevel);
         const proxData = sensors.computeProximity(droneState.position, staticObstacles);
         const flowData = sensors.computeOpticalFlow(droneState.position, droneState.velocity, staticObstacles);
         sensors.renderHUDs(currentLevel);
@@ -422,7 +427,6 @@
                         api
                     ) || { vx: 0, vy: 0, vz: 0 };
 
-                    // L5 加入模擬峽谷側風干擾
                     const windVx = (currentLevel === 5) ? Math.sin(droneState.position.z * 0.08) * 2.8 : 0;
 
                     droneState.velocity.vx = Math.max(-12, Math.min(12, (Number(cmd.vx) || 0) + windVx));
@@ -514,10 +518,13 @@
         document.getElementById('btnReset').addEventListener('click', resetDrone);
         document.getElementById('btnWeather').addEventListener('click', () => setWeather(!isBadWeather));
 
+        // 六大感測器獨立開關綁定
         document.getElementById('toggleStereo').addEventListener('change', e => { sensors.stereoEnabled = e.target.checked; });
         document.getElementById('toggleRadar').addEventListener('change', e => { sensors.radarEnabled = e.target.checked; });
-        document.getElementById('toggleExtra').addEventListener('change', e => { sensors.extraEnabled = e.target.checked; });
         document.getElementById('toggleTof').addEventListener('change', e => { sensors.tofEnabled = e.target.checked; });
+        document.getElementById('toggleLidar').addEventListener('change', e => { sensors.lidarEnabled = e.target.checked; });
+        document.getElementById('toggleProx').addEventListener('change', e => { sensors.proxEnabled = e.target.checked; });
+        document.getElementById('toggleFlow').addEventListener('change', e => { sensors.flowEnabled = e.target.checked; });
 
         const sliderSteer = document.getElementById('sliderSteer');
         sliderSteer.addEventListener('input', e => {
