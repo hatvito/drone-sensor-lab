@@ -1,0 +1,57 @@
+/* css/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+body {
+    font-family: 'Inter', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+    background-color: #070b14;
+    color: #f1f5f9;
+}
+
+.font-mono-code {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* 玻璃擬態面板 */
+.glass-panel {
+    background: rgba(15, 23, 42, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(56, 189, 248, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+}
+
+.glass-card-hover {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(56, 189, 248, 0.5);
+    box-shadow: 0 12px 36px -4px rgba(14, 165, 233, 0.25);
+}
+
+/* 程式碼編輯器捲軸美化 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.6);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(71, 85, 105, 0.8);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(56, 189, 248, 0.8);
+}
+
+/* 18m 限高告警閃爍 */
+@keyframes pulse-danger {
+    0%, 100% { background-color: rgba(220, 38, 38, 0.25); border-color: rgba(239, 68, 68, 0.8); }
+    50% { background-color: rgba(220, 38, 38, 0.55); border-color: rgba(252, 165, 165, 1); }
+}
+
+.altitude-warning-active {
+    animation: pulse-danger 1s infinite;
+}
