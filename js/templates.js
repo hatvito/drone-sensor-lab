@@ -203,7 +203,6 @@ window.LEVEL_DATA = {
         // ==========================================================
         // 📝 【TODO 3-1】設定安全降落條件：
         // 必須同時滿足：1. 已對準停機坪 (tof.over_pad) 且 2. 坡度小於安全門檻
-        // 請檢查下方判斷式，並將「📝 TODO 3-2」的下降速度 vy 改為 -2.2！
         // ==========================================================
         const maxSlope = window.LAB_PARAMS.maxSafeSlope; // 預設 5.0 度
         const isSafeToLand = tof.over_pad && (tof.slope_deg < maxSlope) && tof.is_safe_landing_zone;
@@ -226,19 +225,24 @@ window.LEVEL_DATA = {
             return { vx: -pos.x * 0.9, vy: (12.5 - pos.y) * 1.5, vz: -11.0 };
         }
 
-        // 階段 2：水平對位導引
-        let vx = tof.pad_dx * 2.0;
-        let vz = tof.pad_dz * 2.0;
-        let vy = (11.0 - pos.y) * 1.2;
+        let vx = tof.pad_dx * 2.2;
+        let vz = tof.pad_dz * 2.2;
+        let vy = (11.5 - pos.y) * 1.2;
 
-        // 階段 3：確認停機坪中心且地形坡度平坦 (< 5 度)，執行緩降
+        // 🛡️ 防碰撞保護：如果下方剛好是水塔或斜坡 (slope_deg > 10 且還沒對準停機坪)，強制拉高並平移閃避
+        if (tof.slope_deg > 10.0 && !tof.over_pad) {
+            vy = 2.5; // 往上爬升避開水塔
+            vx += (pos.x < 5.0) ? 3.0 : -3.0; // 側向推開
+        }
+
+        // 階段 3：確認停機坪中心且地形坡度平坦 (< 5 度)，執行精準緩降
         if (tof.over_pad && tof.slope_deg < 5.0 && tof.is_safe_landing_zone) {
             vx = tof.pad_dx * 1.2;
             vz = tof.pad_dz * 1.2;
             vy = (tof.agl < 2.0) ? -1.2 : -2.4;
         }
 
-        return { vx, vy, vz };
+        return { vx, vy, vz, vy };
     }
 }`
     },
