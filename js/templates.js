@@ -70,7 +70,6 @@ window.LEVEL_DATA = {
         const map = api.get_stereo_depth_map();
         let bestR = 6, bestC = 6, maxscore = -999;
 
-        // 尋找最遠且盡量靠近畫面中央的 4x4 連通視窗
         for (let r = 2; r <= 10; r++) {
             for (let c = 1; c <= 11; c++) {
                 let sum = 0, minCell = 999;
@@ -92,7 +91,6 @@ window.LEVEL_DATA = {
         }
         api.set_debug_window(bestR, bestC);
 
-        // 將視窗中心誤差轉為平滑橫向與垂直速度
         const targetVx = ((bestC + 1.5) - 7.5) * 0.72;
         const targetVy = (7.5 - (bestR + 1.5)) * 0.50 + (8.5 - state.position.y) * 0.4;
 
@@ -113,7 +111,6 @@ window.LEVEL_DATA = {
         const pos = state.position;
         const targets = api.get_4d_radar_detections();
 
-        // 基本巡航：維持在跑道中央與 9m 高度前進
         let vx = -pos.x * 0.6;
         let vy = (9.0 - pos.y) * 1.2;
         let vz = -8.5;
@@ -126,12 +123,9 @@ window.LEVEL_DATA = {
         const predictSec = window.LAB_PARAMS.predictTime;
 
         for (let t of targets) {
-            // 只關注前方 32 公尺內的動態目標
             if (t.z_rel < 0 && t.dist < 32.0) {
-                // 核心公式：未來橫向位置 = 現在相對位置 + 相對橫向速度 * 預判秒數
                 const futureX = t.x_rel + (t.rel_vx * predictSec);
 
-                // 如果預判未來它會進入我們正前方走廊 (-5.5m ~ +5.5m)
                 if (Math.abs(futureX) < 5.5) {
                     // ==================================================
                     // 📝 【TODO 2-2】決定閃避方向：
@@ -139,7 +133,7 @@ window.LEVEL_DATA = {
                     // ==================================================
                     vx += (futureX > 0) ? -7.5 : 7.5;
                     vy += (t.y_rel > 0) ? -2.5 : 2.5;
-                    vz = -5.5; // 接近時減速
+                    vz = -5.5;
                 }
             }
         }
@@ -160,7 +154,6 @@ window.LEVEL_DATA = {
                 const closingSpeed = Math.max(1.0, -t.rel_vz);
                 const ttc = Math.min(2.2, Math.abs(t.z_rel) / closingSpeed);
 
-                // 結合都卜勒相對速度預判未來軌跡
                 const futureX = t.x_rel + t.rel_vx * ttc;
                 const futureY = t.y_rel + t.rel_vy * ttc;
 
@@ -186,7 +179,6 @@ window.LEVEL_DATA = {
         const pos = state.position;
         const tof = api.get_downward_tof();
 
-        // 階段 1：尚未飛抵大樓屋頂前 (z > -126)，保持 12.5m 安全高度巡航
         if (pos.z > -126.0) {
             return {
                 vx: -pos.x * 0.8,
@@ -195,20 +187,14 @@ window.LEVEL_DATA = {
             };
         }
 
-        // 階段 2：抵達屋頂上方！利用 ToF 導引向量 (pad_dx, pad_dz) 對準綠色停機坪
         let vx = tof.pad_dx * 1.8;
         let vz = tof.pad_dz * 1.8;
-        let vy = (11.2 - pos.y) * 1.2; // 先懸停在屋頂上方 11.2m 掃描地形
+        let vy = (11.2 - pos.y) * 1.2;
 
-        // ==========================================================
-        // 📝 【TODO 3-1】設定安全降落條件：
-        // 必須同時滿足：1. 已對準停機坪 (tof.over_pad) 且 2. 坡度小於安全門檻
-        // ==========================================================
-        const maxSlope = window.LAB_PARAMS.maxSafeSlope; // 預設 5.0 度
+        const maxSlope = window.LAB_PARAMS.maxSafeSlope;
         const isSafeToLand = tof.over_pad && (tof.slope_deg < maxSlope) && tof.is_safe_landing_zone;
 
         if (isSafeToLand) {
-            // 📝 【TODO 3-2】請把下面這行的 -0.2 改成 -2.2，讓無人機穩定降落觸地！
             vy = -0.2; 
         }
 
@@ -220,7 +206,6 @@ window.LEVEL_DATA = {
         const pos = state.position;
         const tof = api.get_downward_tof();
 
-        // 階段 1：高速巡航接近屋頂
         if (pos.z > -126.0) {
             return { vx: -pos.x * 0.9, vy: (12.5 - pos.y) * 1.5, vz: -11.0 };
         }
@@ -229,20 +214,19 @@ window.LEVEL_DATA = {
         let vz = tof.pad_dz * 2.2;
         let vy = (11.5 - pos.y) * 1.2;
 
-        // 🛡️ 防碰撞保護：如果下方剛好是水塔或斜坡 (slope_deg > 10 且還沒對準停機坪)，強制拉高並平移閃避
+        // 🛡️ 防撞保護：偵測到下方是水塔或斜坡時自動拉高並側向推開
         if (tof.slope_deg > 10.0 && !tof.over_pad) {
-            vy = 2.5; // 往上爬升避開水塔
-            vx += (pos.x < 5.0) ? 3.0 : -3.0; // 側向推開
+            vy = 2.5;
+            vx += (pos.x < 5.0) ? 3.0 : -3.0;
         }
 
-        // 階段 3：確認停機坪中心且地形坡度平坦 (< 5 度)，執行精準緩降
         if (tof.over_pad && tof.slope_deg < 5.0 && tof.is_safe_landing_zone) {
             vx = tof.pad_dx * 1.2;
             vz = tof.pad_dz * 1.2;
             vy = (tof.agl < 2.0) ? -1.2 : -2.4;
         }
 
-        return { vx, vy, vz, vy };
+        return { vx, vy, vz };
     }
 }`
     },
@@ -254,10 +238,9 @@ window.LEVEL_DATA = {
         todo: `class StudentController {
     get_velocity(state, api) {
         const pos = state.position;
-        const quality = api.get_stereo_quality(); // 光學可靠度 (0~1，濃霧區會驟降)
+        const quality = api.get_stereo_quality();
         const tof = api.get_downward_tof();
 
-        // 1. 終點屋頂階段 (Z <= -126m)：切換為下視 ToF 精準降落模式
         if (pos.z <= -126.0) {
             let vx = tof.pad_dx * 2.0;
             let vz = tof.pad_dz * 2.0;
@@ -268,7 +251,6 @@ window.LEVEL_DATA = {
             return { vx, vy, vz };
         }
 
-        // 2. 巡航避障階段：融合雙目視覺與 4D 毫米波雷達
         const map = api.get_stereo_depth_map();
         let bestR = 6, bestC = 6, maxDepth = -1;
         for (let r = 2; r <= 10; r++) {
@@ -281,12 +263,10 @@ window.LEVEL_DATA = {
         }
         api.set_debug_window(bestR, bestC);
 
-        // 依據光學可靠度 quality 動態調整雙目視覺權重
         let vx = ((bestC + 1.5) - 7.5) * 0.68 * quality + (-pos.x * 0.35) * (1 - quality);
         let vy = (7.5 - (bestR + 1.5)) * 0.45 * quality + (9.5 - pos.y) * 1.0;
         let vz = -8.5;
 
-        // 疊加 4D 雷達動態預判閃避 (不受濃霧影響)
         const targets = api.get_4d_radar_detections();
         for (let t of targets) {
             if (t.z_rel < 0 && t.dist < 32.0) {
@@ -306,7 +286,6 @@ window.LEVEL_DATA = {
         const quality = api.get_stereo_quality();
         const tof = api.get_downward_tof();
 
-        // 階段三：屋頂 ToF 導引與斜率檢查降落
         if (pos.z <= -126.0) {
             let vx = tof.pad_dx * 2.0;
             let vz = tof.pad_dz * 2.0;
@@ -317,7 +296,6 @@ window.LEVEL_DATA = {
             return { vx, vy, vz };
         }
 
-        // 階段一 & 二：雙目視覺 + 4D 毫米波雷達自適應權重融合
         const map = api.get_stereo_depth_map();
         let bestR = 6, bestC = 6, bestScore = -999;
         for (let r = 2; r <= 10; r++) {
@@ -335,11 +313,11 @@ window.LEVEL_DATA = {
         let vy = (7.5 - (bestR + 1.5)) * 0.45 * quality + (9.5 - pos.y) * 1.1;
         let vz = -8.8;
 
-        // 🛡️ 增加雙目深度矩陣中心距離過近時的緊急側向推開機制（針對垂直柱體防撞）
+        // 🛡️ 垂直柱體防撞：當深度矩陣中央距離過近時強制側向推開
         let centerDepth = (map[7][7] + map[7][8] + map[8][7] + map[8][8]) / 4.0;
         if (centerDepth < 7.0) {
-            vx += (pos.x <= 0) ? 5.5 : -5.5; // 往開闊處側向閃避
-            vz = -4.0; // 減速通過
+            vx += (pos.x <= 0) ? 5.5 : -5.5;
+            vz = -4.0;
         }
 
         const targets = api.get_4d_radar_detections();
@@ -356,4 +334,5 @@ window.LEVEL_DATA = {
         return { vx, vy, vz };
     }
 }`
-    },
+    }
+};
