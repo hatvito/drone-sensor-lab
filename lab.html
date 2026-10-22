@@ -47,7 +47,7 @@
     <div class="flex-1 flex overflow-hidden">
 
         <!-- 左側：任務引導、滑桿調校區、StudentController 編輯器 -->
-        <aside class="w-[46%] min-w-[460px] max-w-[720px] glass-panel border-r border-slate-300 flex flex-col z-10 shadow-xl">
+        <aside class="w-[44%] min-w-[450px] max-w-[680px] glass-panel border-r border-slate-300 flex flex-col z-10 shadow-xl">
 
             <!-- 關卡任務提示卡 -->
             <div class="p-4 border-b border-blue-500/25 bg-blue-50/80 space-y-1.5">
@@ -113,79 +113,123 @@
             </div>
         </aside>
 
-        <!-- 右側：Three.js 3D 視窗與感測器即時 HUD -->
+        <!-- 右側：Three.js 3D 視窗與「六大感測器即時 HUD」 -->
         <main class="flex-1 relative bg-slate-900 overflow-hidden">
             <div id="canvasContainer" class="w-full h-full"></div>
 
             <!-- 左上：飛行姿態與 18m 限高防作弊進度條 -->
-            <div id="telemetryPanel" class="glass-panel absolute top-4 left-4 p-4 rounded-3xl w-76 pointer-events-none space-y-3 border border-blue-500/30 shadow-2xl">
+            <div id="telemetryPanel" class="glass-panel absolute top-3 left-3 p-3.5 rounded-2xl w-68 pointer-events-none space-y-2.5 border border-blue-500/30 shadow-2xl">
                 <div class="flex justify-between items-center">
                     <span class="text-xs font-black text-[#005BAC] uppercase tracking-wider">Flight Telemetry</span>
-                    <span id="flightStateBadge" class="text-xs px-2.5 py-0.5 rounded-xl badge-lavender font-mono-code font-black">STANDBY</span>
+                    <span id="flightStateBadge" class="text-[11px] px-2.5 py-0.5 rounded-lg badge-lavender font-mono-code font-black">STANDBY</span>
                 </div>
-                <div class="grid grid-cols-3 gap-2 text-center font-mono-code text-xs">
-                    <div class="bg-blue-50 p-2 rounded-2xl border border-blue-200">
-                        <div class="text-[11px] text-slate-600 font-bold">X 橫向</div>
+                <div class="grid grid-cols-3 gap-1.5 text-center font-mono-code text-xs">
+                    <div class="bg-blue-50 p-1.5 rounded-xl border border-blue-200">
+                        <div class="text-[10px] text-slate-600 font-bold">X 橫向</div>
                         <div id="telX" class="text-slate-900 font-black text-sm">0.0m</div>
                     </div>
-                    <div class="bg-teal-50 p-2 rounded-2xl border border-teal-200">
-                        <div class="text-[11px] text-slate-600 font-bold">Y 高度</div>
+                    <div class="bg-teal-50 p-1.5 rounded-xl border border-teal-200">
+                        <div class="text-[10px] text-slate-600 font-bold">Y 高度</div>
                         <div id="telY" class="text-[#00897B] font-black text-sm">8.5m</div>
                     </div>
-                    <div class="bg-purple-50 p-2 rounded-2xl border border-purple-200">
-                        <div class="text-[11px] text-slate-600 font-bold">Z 縱深</div>
+                    <div class="bg-purple-50 p-1.5 rounded-xl border border-purple-200">
+                        <div class="text-[10px] text-slate-600 font-bold">Z 縱深</div>
                         <div id="telZ" class="text-purple-800 font-black text-sm">0.0m</div>
                     </div>
                 </div>
-                <div class="space-y-1.5">
-                    <div class="flex justify-between text-xs font-bold">
+                <div class="space-y-1">
+                    <div class="flex justify-between text-[11px] font-bold">
                         <span class="text-slate-700">空域限高 (上限 18.0m)</span>
                         <span id="altPercentText" class="text-[#00897B] font-mono-code font-black">47%</span>
                     </div>
-                    <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300">
+                    <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden border border-slate-300">
                         <div id="altBar" class="h-full bg-gradient-to-r from-[#005BAC] to-[#00897B] transition-all duration-100" style="width: 47%"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- 右側：四大感測器即時視覺化 HUD 面板 (可捲動) -->
-            <div class="absolute top-3 right-3 bottom-3 flex flex-col space-y-2.5 w-60 overflow-y-auto pr-1 pointer-events-auto">
+            <!-- 右側：六大感測器即時視覺化 HUD (雙欄 2x3 六宮格，6個狀態同時呈現！) -->
+            <div class="absolute top-3 right-3 grid grid-cols-2 gap-2.5 w-[390px] pointer-events-auto">
 
                 <!-- 1. 雙目立體深度熱力圖 HUD -->
-                <div class="glass-panel p-3 rounded-2xl border border-blue-500/40 shadow-lg">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="text-xs font-black text-[#005BAC]">1. 雙目深度圖 (16×16)</span>
-                        <input type="checkbox" id="toggleStereo" checked class="accent-[#005BAC] cursor-pointer w-4 h-4">
+                <div id="cardHud1" class="glass-panel p-2.5 rounded-2xl border-2 border-blue-500/40 shadow-lg transition-all">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[11px] font-black text-[#005BAC]">1. 雙目深度 (16×16)</span>
+                        <input type="checkbox" id="toggleStereo" checked class="accent-[#005BAC] cursor-pointer w-3.5 h-3.5" title="開關雙目視覺">
                     </div>
-                    <canvas id="hudStereo" width="176" height="115" class="w-full rounded-xl bg-slate-950 border border-blue-200"></canvas>
+                    <canvas id="hudStereo" width="168" height="104" class="w-full rounded-xl bg-slate-950 border border-blue-200"></canvas>
+                    <div class="flex justify-between text-[10px] text-slate-700 font-bold mt-1">
+                        <span>🔴 近處</span>
+                        <span>⬜ 4×4窗</span>
+                        <span>🔵 遠方</span>
+                    </div>
                 </div>
 
                 <!-- 2. 4D 毫米波雷達波束圖 HUD -->
-                <div class="glass-panel p-3 rounded-2xl border border-teal-500/40 shadow-lg">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="text-xs font-black text-[#00897B]">2. 4D 雷達 (都卜勒動態)</span>
-                        <input type="checkbox" id="toggleRadar" checked class="accent-[#00897B] cursor-pointer w-4 h-4">
+                <div id="cardHud2" class="glass-panel p-2.5 rounded-2xl border-2 border-teal-500/40 shadow-lg transition-all">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[11px] font-black text-[#00897B]">2. 4D 雷達 (都卜勒)</span>
+                        <input type="checkbox" id="toggleRadar" checked class="accent-[#00897B] cursor-pointer w-3.5 h-3.5" title="開關4D雷達">
                     </div>
-                    <canvas id="hudRadar" width="176" height="105" class="w-full rounded-xl bg-slate-950 border border-teal-200"></canvas>
+                    <canvas id="hudRadar" width="168" height="104" class="w-full rounded-xl bg-slate-950 border border-teal-200"></canvas>
+                    <div class="flex justify-between text-[10px] text-slate-700 font-bold mt-1">
+                        <span>🟡 動態目標</span>
+                        <span>➔ 相對速度</span>
+                    </div>
                 </div>
 
-                <!-- 3. 進階感知 HUD (根據關卡自動顯示：3D光達 / 四周防撞 / 光流視差) -->
-                <div class="glass-panel p-3 rounded-2xl border border-indigo-500/40 shadow-lg">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span id="extraHudTitle" class="text-xs font-black text-indigo-700">3. 3D 光達 / 防撞 / 光流</span>
-                        <input type="checkbox" id="toggleExtra" checked class="accent-indigo-600 cursor-pointer w-4 h-4">
+                <!-- 3. 下視 ToF 對地測距與坡度 HUD -->
+                <div id="cardHud3" class="glass-panel p-2.5 rounded-2xl border-2 border-purple-500/40 shadow-lg transition-all">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[11px] font-black text-purple-800">3. 下視 ToF 測距</span>
+                        <input type="checkbox" id="toggleTof" checked class="accent-purple-700 cursor-pointer w-3.5 h-3.5" title="開關下視ToF">
                     </div>
-                    <canvas id="hudExtra" width="176" height="115" class="w-full rounded-xl bg-slate-950 border border-indigo-200"></canvas>
+                    <canvas id="hudTof" width="168" height="104" class="w-full rounded-xl bg-slate-950 border border-purple-200"></canvas>
+                    <div class="flex justify-between text-[10px] text-slate-700 font-bold mt-1">
+                        <span>📐 屋頂坡度</span>
+                        <span>🎯 停機坪對位</span>
+                    </div>
                 </div>
 
-                <!-- 4. 下視 ToF 對地測距與坡度 HUD -->
-                <div class="glass-panel p-3 rounded-2xl border border-purple-500/40 shadow-lg">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="text-xs font-black text-purple-800">4. 下視 ToF 測距與斜率</span>
-                        <input type="checkbox" id="toggleTof" checked class="accent-purple-700 cursor-pointer w-4 h-4">
+                <!-- 4. 3D 主動光達點雲 HUD -->
+                <div id="cardHud4" class="glass-panel p-2.5 rounded-2xl border-2 border-indigo-500/40 shadow-lg transition-all">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[11px] font-black text-indigo-700">4. 3D 光達 (LiDAR)</span>
+                        <input type="checkbox" id="toggleLidar" checked class="accent-indigo-600 cursor-pointer w-3.5 h-3.5" title="開關3D光達">
                     </div>
-                    <canvas id="hudTof" width="176" height="88" class="w-full rounded-xl bg-slate-950 border border-purple-200"></canvas>
+                    <canvas id="hudLidar" width="168" height="104" class="w-full rounded-xl bg-slate-950 border border-indigo-200"></canvas>
+                    <div class="flex justify-between text-[10px] text-slate-700 font-bold mt-1">
+                        <span>🟢 15束雷射</span>
+                        <span>🔴 靜止柱體</span>
+                    </div>
                 </div>
+
+                <!-- 5. 四周近距超音波防撞陣列 HUD -->
+                <div id="cardHud5" class="glass-panel p-2.5 rounded-2xl border-2 border-amber-500/40 shadow-lg transition-all">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[11px] font-black text-amber-700">5. 四周近距防撞</span>
+                        <input type="checkbox" id="toggleProx" checked class="accent-amber-600 cursor-pointer w-3.5 h-3.5" title="開關四周防撞陣列">
+                    </div>
+                    <canvas id="hudProx" width="168" height="104" class="w-full rounded-xl bg-slate-950 border border-amber-200"></canvas>
+                    <div class="flex justify-between text-[10px] text-slate-700 font-bold mt-1">
+                        <span>🔊 四向聲納</span>
+                        <span>🛡️ 側風反彈</span>
+                    </div>
+                </div>
+
+                <!-- 6. 單眼迴旋光流與視差 HUD -->
+                <div id="cardHud6" class="glass-panel p-2.5 rounded-2xl border-2 border-rose-500/40 shadow-lg transition-all">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[11px] font-black text-rose-700">6. 單眼光流視差</span>
+                        <input type="checkbox" id="toggleFlow" checked class="accent-rose-600 cursor-pointer w-3.5 h-3.5" title="開關單眼光流">
+                    </div>
+                    <canvas id="hudFlow" width="168" height="104" class="w-full rounded-xl bg-slate-950 border border-rose-200"></canvas>
+                    <div class="flex justify-between text-[10px] text-slate-700 font-bold mt-1">
+                        <span>👁️ 像素膨脹</span>
+                        <span>⚡ 視差向量</span>
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>
