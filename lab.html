@@ -8,35 +8,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-screen w-screen overflow-hidden flex flex-col select-none text-slate-800">
+<body class="h-screen w-screen overflow-hidden flex flex-col select-none text-slate-900">
 
     <!-- 頂部控制列 -->
-    <header class="glass-panel z-20 px-6 py-3.5 border-b border-blue-500/20 flex items-center justify-between shadow-sm">
-        <div class="flex items-center space-x-3.5">
-            <a href="index.html" class="px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#005BAC] text-xs font-bold flex items-center gap-1.5 border border-blue-200 transition">
+    <header class="glass-panel z-20 px-6 py-4 border-b border-blue-500/25 flex items-center justify-between shadow-md">
+        <div class="flex items-center space-x-4">
+            <a href="index.html" class="px-4 py-2.5 rounded-2xl bg-blue-50 hover:bg-blue-100 text-[#005BAC] text-sm font-extrabold flex items-center gap-2 border-2 border-blue-200 transition">
                 <span>⬅</span> 返回首頁
             </a>
-            <div class="h-5 w-[1px] bg-slate-300"></div>
-            <h1 class="text-base font-extrabold text-slate-900 hidden sm:block tracking-wide">🛸 無人機進階感測器實驗室</h1>
+            <div class="h-6 w-[1px] bg-slate-300"></div>
+            <h1 class="text-lg font-black text-slate-900 hidden sm:block tracking-wide">🛸 無人機進階感測器實驗室</h1>
 
             <!-- 關卡切換按鈕組 -->
-            <div class="flex bg-slate-200/80 p-1.5 rounded-xl border border-slate-300 space-x-1.5">
-                <button data-level="1" class="level-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition">L1 雙目視覺</button>
-                <button data-level="2" class="level-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition">L2 4D雷達</button>
-                <button data-level="3" class="level-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition">L3 下視ToF</button>
-                <button data-level="4" class="level-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition">L4 感測融合</button>
+            <div class="flex bg-slate-200 p-1.5 rounded-2xl border border-slate-300 space-x-2">
+                <button data-level="1" class="level-btn px-4 py-2 rounded-xl text-sm font-bold transition">L1 雙目視覺</button>
+                <button data-level="2" class="level-btn px-4 py-2 rounded-xl text-sm font-bold transition">L2 4D雷達</button>
+                <button data-level="3" class="level-btn px-4 py-2 rounded-xl text-sm font-bold transition">L3 下視ToF</button>
+                <button data-level="4" class="level-btn px-4 py-2 rounded-xl text-sm font-bold transition">L4 感測融合</button>
             </div>
         </div>
 
         <!-- 天氣與模擬執行控制 -->
-        <div class="flex items-center space-x-2.5">
-            <button id="btnWeather" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-50 text-[#005BAC] border border-blue-200 hover:bg-blue-100 transition">
+        <div class="flex items-center space-x-3">
+            <button id="btnWeather" class="px-4.5 py-2.5 rounded-2xl text-sm font-bold bg-blue-50 text-[#005BAC] border-2 border-blue-200 hover:bg-blue-100 transition">
                 ☀️ 晴朗無霧
             </button>
-            <button id="btnRun" class="px-5 py-2 rounded-xl text-xs font-extrabold btn-fubon-aqua">
-                ▶ 執行演算法
+            <button id="btnRun" class="px-6 py-2.5 rounded-2xl text-sm font-black btn-fubon-aqua shadow-lg">
+                ▶ 執行學生程式
             </button>
-            <button id="btnReset" class="px-3.5 py-2 rounded-xl text-xs font-bold badge-lavender hover:bg-purple-100 transition">
+            <button id="btnReset" class="px-4.5 py-2.5 rounded-2xl text-sm font-bold badge-lavender hover:bg-purple-100 transition shadow-sm">
                 ↺ 重置
             </button>
         </div>
@@ -46,72 +46,70 @@
     <div class="flex-1 flex overflow-hidden">
 
         <!-- 左側：任務引導、滑桿調校區、StudentController 編輯器 -->
-        <aside class="w-[44%] min-w-[430px] max-w-[660px] glass-panel border-r border-slate-300 flex flex-col z-10 shadow-lg">
+        <aside class="w-[45%] min-w-[450px] max-w-[700px] glass-panel border-r border-slate-300 flex flex-col z-10 shadow-xl">
 
             <!-- 關卡任務提示卡 -->
-            <div class="p-4 border-b border-blue-500/20 bg-blue-50/70 space-y-1.5">
+            <div class="p-5 border-b border-blue-500/25 bg-blue-50/80 space-y-2">
                 <div class="flex items-center justify-between">
-                    <span id="missionTitle" class="text-xs font-extrabold text-[#005BAC]">關卡一：雙目立體視覺</span>
-                    <span id="missionBadge" class="text-xs px-3 py-0.5 rounded-lg badge-lavender font-mono-code font-bold">目標 Z = -135m</span>
+                    <span id="missionTitle" class="text-sm font-black text-[#005BAC]">關卡一：雙目立體視覺</span>
+                    <span id="missionBadge" class="text-xs px-3.5 py-1 rounded-xl badge-lavender font-mono-code font-black">目標 Z = -135m</span>
                 </div>
-                <p id="missionDesc" class="text-xs text-slate-700 leading-relaxed font-medium"></p>
+                <p id="missionDesc" class="text-sm text-slate-800 leading-relaxed font-semibold"></p>
             </div>
 
             <!-- 🎛️ 課堂互動參數調校台 -->
-            <div class="px-4 py-3 border-b border-slate-200 bg-slate-100/90">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs font-extrabold text-[#00897B]">🎛️ 課堂互動參數調校台 (可直接拉動測試，或於下方修改程式碼)</span>
+            <div class="px-5 py-4 border-b border-slate-300 bg-slate-100">
+                <div class="flex items-center justify-between mb-2.5">
+                    <span class="text-sm font-black text-[#00897B]">🎛️ 課堂互動參數調校台 (可直接拉動測試，或於下方修改程式碼)</span>
                 </div>
-                <div class="grid grid-cols-3 gap-3 text-xs">
+                <div class="grid grid-cols-3 gap-3.5 text-sm">
                     <!-- 滑桿 1 -->
-                    <div class="bg-white p-2.5 rounded-xl border border-blue-200 shadow-sm">
-                        <div class="flex justify-between text-slate-700 font-semibold mb-1.5">
+                    <div class="bg-white p-3 rounded-2xl border-2 border-blue-200 shadow-sm">
+                        <div class="flex justify-between text-slate-800 font-bold mb-2">
                             <span>L1 轉向靈敏度</span>
-                            <span id="valSteer" class="text-[#005BAC] font-mono-code font-bold">0.20</span>
+                            <span id="valSteer" class="text-[#005BAC] font-mono-code font-black text-base">0.20</span>
                         </div>
-                        <input id="sliderSteer" type="range" min="0.1" max="1.2" step="0.05" value="0.20" class="w-full accent-[#005BAC] cursor-pointer">
+                        <input id="sliderSteer" type="range" min="0.1" max="1.2" step="0.05" value="0.20" class="w-full accent-[#005BAC] cursor-pointer h-2">
                     </div>
                     <!-- 滑桿 2 -->
-                    <div class="bg-white p-2.5 rounded-xl border border-teal-200 shadow-sm">
-                        <div class="flex justify-between text-slate-700 font-semibold mb-1.5">
-                            <span>L2 預判未來秒數</span>
-                            <span id="valPredict" class="text-[#00897B] font-mono-code font-bold">0.0s</span>
+                    <div class="bg-white p-3 rounded-2xl border-2 border-teal-200 shadow-sm">
+                        <div class="flex justify-between text-slate-800 font-bold mb-2">
+                            <span>L2 預判秒數</span>
+                            <span id="valPredict" class="text-[#00897B] font-mono-code font-black text-base">0.0s</span>
                         </div>
-                        <input id="sliderPredict" type="range" min="0.0" max="2.5" step="0.1" value="0.0" class="w-full accent-[#00897B] cursor-pointer">
+                        <input id="sliderPredict" type="range" min="0.0" max="2.5" step="0.1" value="0.0" class="w-full accent-[#00897B] cursor-pointer h-2">
                     </div>
                     <!-- 滑桿 3 -->
-                    <div class="bg-white p-2.5 rounded-xl border border-purple-200 shadow-sm">
-                        <div class="flex justify-between text-slate-700 font-semibold mb-1.5">
-                            <span>L3 允許降落坡度</span>
-                            <span id="valSlope" class="text-purple-700 font-mono-code font-bold">5.0°</span>
+                    <div class="bg-white p-3 rounded-2xl border-2 border-purple-200 shadow-sm">
+                        <div class="flex justify-between text-slate-800 font-bold mb-2">
+                            <span>L3 允許坡度</span>
+                            <span id="valSlope" class="text-purple-800 font-mono-code font-black text-base">5.0°</span>
                         </div>
-                        <input id="sliderSlope" type="range" min="2.0" max="22.0" step="1.0" value="5.0" class="w-full accent-purple-600 cursor-pointer">
+                        <input id="sliderSlope" type="range" min="2.0" max="22.0" step="1.0" value="5.0" class="w-full accent-purple-700 cursor-pointer h-2">
                     </div>
                 </div>
             </div>
 
-            <!-- 程式碼模式切換列 -->
-            <div class="px-4 py-2.5 bg-slate-200/90 border-b border-slate-300 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <button id="btnLoadTodo" class="px-3.5 py-1.5 rounded-lg text-xs font-bold badge-lavender hover:bg-purple-200 transition">
-                        📝 載入學生填空練習 (TODO)
-                    </button>
-                    <button id="btnLoadSolution" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-teal-100 text-[#00897B] border border-teal-300 hover:bg-teal-200 transition">
-                        💡 載入本關標準解答
-                    </button>
+            <!-- 程式碼模式切換列 (已改為：保留練習 TODO，點擊自動演示時不秀解答程式碼) -->
+            <div class="px-5 py-3 bg-slate-200 border-b border-slate-300 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs font-extrabold text-slate-700">📝 目前編輯器：學生填空練習 (TODO)</span>
                 </div>
-                <span id="codeModeIndicator" class="text-xs text-purple-700 font-bold">目前模式：學生填空練習</span>
+                <!-- 🚀 一鍵自動演示按鈕（解答在背景執行，不秀出程式碼） -->
+                <button id="btnAutoDemo" class="px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-md hover:from-amber-600 hover:to-orange-700 transition flex items-center gap-1.5">
+                    <span>🚀</span> 一鍵自動演示 (隱藏解答)
+                </button>
             </div>
 
-            <!-- 程式碼編輯器 (高對比明亮背景 + 深色易讀字體) -->
+            <!-- 程式碼編輯器 (特大 16px 字體) -->
             <div class="flex-1 relative">
-                <textarea id="codeEditor" spellcheck="false" class="w-full h-full bg-[#FAFAFC] text-[#0F172A] font-mono-code text-xs p-5 leading-relaxed focus:outline-none resize-none selection:bg-blue-200"></textarea>
+                <textarea id="codeEditor" spellcheck="false" class="w-full h-full bg-[#FAFAFC] text-[#0F172A] font-mono-code text-base p-6 leading-relaxed focus:outline-none resize-none selection:bg-blue-200"></textarea>
             </div>
 
             <!-- 底部狀態與編譯訊息 -->
-            <div id="statusBanner" class="px-5 py-3 text-xs font-bold bg-slate-100 border-t border-slate-300 text-slate-800 flex items-center justify-between">
-                <span id="statusText">🟢 準備就緒：請修改標註 【TODO】 的程式碼，或調整上方滑桿後點擊「執行演算法」。</span>
-                <span id="fpsCounter" class="text-xs text-slate-500 font-mono-code font-bold">60 FPS</span>
+            <div id="statusBanner" class="px-6 py-3.5 text-sm font-bold bg-slate-100 border-t border-slate-300 text-slate-900 flex items-center justify-between">
+                <span id="statusText">🟢 準備就緒：請修改標註 【TODO】 的程式碼，或調整上方滑桿後點擊「執行學生程式」。</span>
+                <span id="fpsCounter" class="text-sm text-slate-600 font-mono-code font-bold">60 FPS</span>
             </div>
         </aside>
 
@@ -121,48 +119,48 @@
             <div id="canvasContainer" class="w-full h-full"></div>
 
             <!-- 左上：飛行姿態與 18m 限高防作弊進度條 -->
-            <div id="telemetryPanel" class="glass-panel absolute top-4 left-4 p-4 rounded-2xl w-72 pointer-events-none space-y-3 border border-blue-500/30 shadow-xl">
+            <div id="telemetryPanel" class="glass-panel absolute top-5 left-5 p-5 rounded-3xl w-80 pointer-events-none space-y-3.5 border border-blue-500/30 shadow-2xl">
                 <div class="flex justify-between items-center">
-                    <span class="text-xs font-extrabold text-[#005BAC] uppercase tracking-wider">Flight Telemetry</span>
-                    <span id="flightStateBadge" class="text-xs px-2.5 py-0.5 rounded-lg badge-lavender font-mono-code font-bold">STANDBY</span>
+                    <span class="text-xs font-black text-[#005BAC] uppercase tracking-wider">Flight Telemetry</span>
+                    <span id="flightStateBadge" class="text-xs px-3 py-1 rounded-xl badge-lavender font-mono-code font-black">STANDBY</span>
                 </div>
-                <div class="grid grid-cols-3 gap-2 text-center font-mono-code text-xs">
-                    <div class="bg-blue-50 p-2 rounded-xl border border-blue-200">
-                        <div class="text-[11px] text-slate-500 font-bold">X 橫向</div>
-                        <div id="telX" class="text-slate-900 font-extrabold">0.0m</div>
+                <div class="grid grid-cols-3 gap-2.5 text-center font-mono-code text-sm">
+                    <div class="bg-blue-50 p-2.5 rounded-2xl border border-blue-200">
+                        <div class="text-xs text-slate-600 font-bold">X 橫向</div>
+                        <div id="telX" class="text-slate-900 font-black text-base">0.0m</div>
                     </div>
-                    <div class="bg-teal-50 p-2 rounded-xl border border-teal-200">
-                        <div class="text-[11px] text-slate-500 font-bold">Y 高度</div>
-                        <div id="telY" class="text-[#00897B] font-extrabold">8.0m</div>
+                    <div class="bg-teal-50 p-2.5 rounded-2xl border border-teal-200">
+                        <div class="text-xs text-slate-600 font-bold">Y 高度</div>
+                        <div id="telY" class="text-[#00897B] font-black text-base">8.0m</div>
                     </div>
-                    <div class="bg-purple-50 p-2 rounded-xl border border-purple-200">
-                        <div class="text-[11px] text-slate-500 font-bold">Z 縱深</div>
-                        <div id="telZ" class="text-purple-700 font-extrabold">0.0m</div>
+                    <div class="bg-purple-50 p-2.5 rounded-2xl border border-purple-200">
+                        <div class="text-xs text-slate-600 font-bold">Z 縱深</div>
+                        <div id="telZ" class="text-purple-800 font-black text-base">0.0m</div>
                     </div>
                 </div>
                 <!-- 18m 限高條 -->
-                <div class="space-y-1.5">
+                <div class="space-y-2">
                     <div class="flex justify-between text-xs font-bold">
-                        <span class="text-slate-600">空域限高監控 (上限 18.0m)</span>
-                        <span id="altPercentText" class="text-[#00897B] font-mono-code">44%</span>
+                        <span class="text-slate-700">空域限高監控 (上限 18.0m)</span>
+                        <span id="altPercentText" class="text-[#00897B] font-mono-code text-sm font-black">44%</span>
                     </div>
-                    <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden border border-slate-300">
+                    <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300">
                         <div id="altBar" class="h-full bg-gradient-to-r from-[#005BAC] to-[#00897B] transition-all duration-100" style="width: 44%"></div>
                     </div>
                 </div>
             </div>
 
             <!-- 右側：三大感測器即時視覺化 HUD -->
-            <div class="absolute top-4 right-4 flex flex-col space-y-3 w-56 pointer-events-auto">
+            <div class="absolute top-5 right-5 flex flex-col space-y-3.5 w-60 pointer-events-auto">
 
                 <!-- 1. 雙目立體深度熱力圖 HUD -->
-                <div class="glass-panel p-3 rounded-2xl border border-blue-500/40 shadow-lg">
+                <div class="glass-panel p-3.5 rounded-3xl border border-blue-500/40 shadow-xl">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-extrabold text-[#005BAC]">1. 雙目深度圖 (16×16)</span>
+                        <span class="text-xs font-black text-[#005BAC]">1. 雙目深度圖 (16×16)</span>
                         <input type="checkbox" id="toggleStereo" checked class="accent-[#005BAC] cursor-pointer w-4 h-4" title="開關雙目視覺">
                     </div>
-                    <canvas id="hudStereo" width="176" height="140" class="w-full rounded-xl bg-slate-950 border border-blue-200"></canvas>
-                    <div class="flex justify-between text-[11px] text-slate-600 font-bold mt-1.5">
+                    <canvas id="hudStereo" width="176" height="140" class="w-full rounded-2xl bg-slate-950 border-2 border-blue-200"></canvas>
+                    <div class="flex justify-between text-xs text-slate-700 font-bold mt-2">
                         <span>🔴 近處障礙</span>
                         <span>⬜ 4×4視窗</span>
                         <span>🔵 遠方空曠</span>
@@ -170,25 +168,25 @@
                 </div>
 
                 <!-- 2. 4D 毫米波雷達波束圖 HUD -->
-                <div class="glass-panel p-3 rounded-2xl border border-teal-500/40 shadow-lg">
+                <div class="glass-panel p-3.5 rounded-3xl border border-teal-500/40 shadow-xl">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-extrabold text-[#00897B]">2. 4D 毫米波雷達 (都卜勒)</span>
+                        <span class="text-xs font-black text-[#00897B]">2. 4D 毫米波雷達 (都卜勒)</span>
                         <input type="checkbox" id="toggleRadar" checked class="accent-[#00897B] cursor-pointer w-4 h-4" title="開關4D雷達">
                     </div>
-                    <canvas id="hudRadar" width="176" height="130" class="w-full rounded-xl bg-slate-950 border border-teal-200"></canvas>
-                    <div class="flex justify-between text-[11px] text-slate-600 font-bold mt-1.5">
+                    <canvas id="hudRadar" width="176" height="130" class="w-full rounded-2xl bg-slate-950 border-2 border-teal-200"></canvas>
+                    <div class="flex justify-between text-xs text-slate-700 font-bold mt-2">
                         <span>🟡 動態目標</span>
-                        <span>➔ 相對速度向量</span>
+                        <span>➔ 速度向量</span>
                     </div>
                 </div>
 
                 <!-- 3. 下視 ToF 對地測距與坡度 HUD -->
-                <div class="glass-panel p-3 rounded-2xl border border-purple-500/40 shadow-lg">
+                <div class="glass-panel p-3.5 rounded-3xl border border-purple-500/40 shadow-xl">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-extrabold text-purple-700">3. 下視 ToF 測距與斜率</span>
-                        <input type="checkbox" id="toggleTof" checked class="accent-purple-600 cursor-pointer w-4 h-4" title="開關下視ToF">
+                        <span class="text-xs font-black text-purple-800">3. 下視 ToF 測距與斜率</span>
+                        <input type="checkbox" id="toggleTof" checked class="accent-purple-700 cursor-pointer w-4 h-4" title="開關下視ToF">
                     </div>
-                    <canvas id="hudTof" width="176" height="100" class="w-full rounded-xl bg-slate-950 border border-purple-200"></canvas>
+                    <canvas id="hudTof" width="176" height="100" class="w-full rounded-2xl bg-slate-950 border-2 border-purple-200"></canvas>
                 </div>
             </div>
         </main>
