@@ -25,12 +25,12 @@
         velocity: { vx: 0, vy: 0, vz: 0 }
     };
 
-    // 初始化 Three.js 場景 (富邦藍 × 湖水綠 × 淡紫 3D 視覺)
+    // 初始化 Three.js 場景 (明亮清新大氣藍背景)
     function initThree() {
         const container = document.getElementById('canvasContainer');
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x061326); // 富邦深海藍背景
-        scene.fog = new THREE.FogExp2(0x061326, 0.006);
+        scene.background = new THREE.Color(0x0f172a); // 3D 模擬器維持高對比深色背景以便凸顯感測器 HUD
+        scene.fog = new THREE.FogExp2(0x0f172a, 0.005);
 
         camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 300);
         renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -38,44 +38,44 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        // 淡紫色環境光 + 湖水綠方向光
-        scene.add(new THREE.AmbientLight(0xddd6fe, 0.72));
-        const dirLight = new THREE.DirectionalLight(0x2dd4bf, 0.95);
-        dirLight.position.set(20, 45, 30);
+        // 明亮環境光與方向光
+        scene.add(new THREE.AmbientLight(0xffffff, 0.85));
+        const dirLight = new THREE.DirectionalLight(0x38bdf8, 1.1);
+        dirLight.position.set(25, 50, 30);
         scene.add(dirLight);
 
-        // 地面跑道網格：湖水綠中線 (#00A59B) + 富邦藍格線 (#005BAC)
-        const grid = new THREE.GridHelper(220, 80, 0x00A59B, 0x004a8f);
+        // 地面跑道網格
+        const grid = new THREE.GridHelper(220, 80, 0x00A59B, 0x1e293b);
         grid.position.set(0, 0, -80);
         scene.add(grid);
 
-        // 18m 限高防護網格 (紫紅雷射光網)
+        // 18m 限高防護網格 (明亮紅雷射光網)
         const ceilingGeo = new THREE.PlaneGeometry(36, 190, 12, 40);
         const ceilingMat = new THREE.MeshBasicMaterial({
-            color: 0xf43f5e,
+            color: 0xef4444,
             wireframe: true,
             transparent: true,
-            opacity: 0.22
+            opacity: 0.28
         });
         const ceilingMesh = new THREE.Mesh(ceilingGeo, ceilingMat);
         ceilingMesh.rotation.x = Math.PI / 2;
         ceilingMesh.position.set(0, MAX_ALTITUDE, -80);
         scene.add(ceilingMesh);
 
-        // 建立四軸物流無人機模型 (富邦亮藍機身 + 淡紫色機臂 + 湖水綠光環)
+        // 建立四軸物流無人機模型 (富邦藍機身 + 湖水綠光環)
         droneGroup = new THREE.Group();
         const bodyGeo = new THREE.BoxGeometry(1.4, 0.45, 1.4);
         const bodyMat = new THREE.MeshStandardMaterial({
             color: 0x0076CE,
             emissive: 0x005BAC,
-            emissiveIntensity: 0.35,
+            emissiveIntensity: 0.45,
             metalness: 0.5,
             roughness: 0.2
         });
         droneGroup.add(new THREE.Mesh(bodyGeo, bodyMat));
 
         const armGeo = new THREE.CylinderGeometry(0.08, 0.08, 2.2);
-        const armMat = new THREE.MeshBasicMaterial({ color: 0xC4B5FD }); // 淡紫色機臂
+        const armMat = new THREE.MeshBasicMaterial({ color: 0x7C3AED }); // 紫色機臂
         const arm1 = new THREE.Mesh(armGeo, armMat);
         arm1.rotation.z = Math.PI / 2;
         arm1.rotation.y = Math.PI / 4;
@@ -84,7 +84,7 @@
         droneGroup.add(arm1, arm2);
         scene.add(droneGroup);
 
-        // 雨霧粒子系統 (淡紫與湖水綠冰晶雨滴)
+        // 雨霧粒子系統
         const rainGeo = new THREE.BufferGeometry();
         const rainPositions = new Float32Array(1200 * 3);
         for (let i = 0; i < 1200; i++) {
@@ -95,7 +95,7 @@
         rainGeo.setAttribute('position', new THREE.BufferAttribute(rainPositions, 3));
         rainSystem = new THREE.Points(
             rainGeo,
-            new THREE.PointsMaterial({ color: 0xc4b5fd, size: 0.18, transparent: true, opacity: 0.68 })
+            new THREE.PointsMaterial({ color: 0x38bdf8, size: 0.2, transparent: true, opacity: 0.75 })
         );
         rainSystem.visible = false;
         scene.add(rainSystem);
@@ -118,7 +118,7 @@
         staticObstacles = [];
         dynamicObstacles = [];
 
-        // 關卡 1 或 4：建立高壓細電線與樹幹
+        // 關卡 1 或 4：建立高壓細電線與柱體
         if (level === 1 || level === 4) {
             const wireMat = new THREE.MeshBasicMaterial({ color: 0xf43f5e });
             const wireConfigs = [
@@ -135,14 +135,13 @@
                 staticObstacles.push({ x: 0, y: w.y, z: w.z, hx: 14.0, hy: 0.9, hz: 0.4 });
             });
 
-            // 垂直柱體 (淡紫光澤感電線桿)
             const poleConfigs = [
                 { x: -3.5, z: -38 },
                 { x: 3.2, z: -58 },
                 { x: -1.5, z: -78 },
                 { x: 4.0, z: -102 }
             ];
-            const poleMat = new THREE.MeshStandardMaterial({ color: 0xa78bfa, roughness: 0.4 });
+            const poleMat = new THREE.MeshStandardMaterial({ color: 0x8b5cf6, roughness: 0.4 });
             poleConfigs.forEach(p => {
                 const mesh = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.65, 18), poleMat);
                 mesh.position.set(p.x, 9, p.z);
@@ -151,18 +150,18 @@
             });
         }
 
-        // 關卡 2 或 4：建立橫向移動動態巡邏機與飛鳥
+        // 關卡 2 或 4：建立動態巡邏機與飛鳥
         if (level === 2 || level === 4) {
             const dynConfigs = [
-                { id: 1, z: -36, y: 8.5, x: -7, vx: 6.2, color: 0x2dd4bf },
-                { id: 2, z: -64, y: 9.2, x: 7, vx: -6.8, color: 0xc4b5fd },
-                { id: 3, z: -92, y: 8.8, x: -5, vx: 7.4, color: 0x2dd4bf },
-                { id: 4, z: -114, y: 9.5, x: 6, vx: -6.0, color: 0xc4b5fd }
+                { id: 1, z: -36, y: 8.5, x: -7, vx: 6.2, color: 0x00897B },
+                { id: 2, z: -64, y: 9.2, x: 7, vx: -6.8, color: 0x8b5cf6 },
+                { id: 3, z: -92, y: 8.8, x: -5, vx: 7.4, color: 0x00897B },
+                { id: 4, z: -114, y: 9.5, x: 6, vx: -6.0, color: 0x8b5cf6 }
             ];
             dynConfigs.forEach(d => {
                 const mesh = new THREE.Mesh(
                     new THREE.SphereGeometry(1.25, 16, 16),
-                    new THREE.MeshStandardMaterial({ color: d.color, emissive: d.color, emissiveIntensity: 0.45 })
+                    new THREE.MeshStandardMaterial({ color: d.color, emissive: d.color, emissiveIntensity: 0.5 })
                 );
                 mesh.position.set(d.x, d.y, d.z);
                 obstacleGroup.add(mesh);
@@ -170,61 +169,55 @@
             });
         }
 
-        // 關卡 3 或 4：建立終點大樓屋頂、18°斜坡屋頂、水塔與湖水綠停機坪
+        // 關卡 3 或 4：建立終點大樓屋頂、斜坡、水塔與停機坪
         if (level === 3 || level === 4) {
             const building = new THREE.Mesh(
                 new THREE.BoxGeometry(26, 8, 26),
-                new THREE.MeshStandardMaterial({ color: 0x0a2246 }) // 富邦深藍大樓
+                new THREE.MeshStandardMaterial({ color: 0x1e293b })
             );
             building.position.set(0, 4, -138);
             obstacleGroup.add(building);
 
-            // 左側危險斜坡屋頂
             const slopeMesh = new THREE.Mesh(
                 new THREE.BoxGeometry(11, 0.6, 24),
-                new THREE.MeshStandardMaterial({ color: 0x9f1239 })
+                new THREE.MeshStandardMaterial({ color: 0x991b1b })
             );
             slopeMesh.position.set(-6.8, 9.4, -138);
             slopeMesh.rotation.z = -0.32;
             obstacleGroup.add(slopeMesh);
 
-            // 屋頂水塔 1 & 2 (淡紫金屬光澤)
-            const towerMat = new THREE.MeshStandardMaterial({ color: 0xc4b5fd, metalness: 0.5, roughness: 0.3 });
+            const towerMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.6 });
             [roofConfig.tower1, roofConfig.tower2].forEach(t => {
                 const tower = new THREE.Mesh(new THREE.CylinderGeometry(2.1, 2.1, 3.6, 20), towerMat);
                 tower.position.set(t.x, 9.8, t.z);
                 obstacleGroup.add(tower);
             });
 
-            // 湖水綠平坦安全停機坪 (H)
             const padMesh = new THREE.Mesh(
                 new THREE.CylinderGeometry(2.7, 2.7, 0.25, 28),
-                new THREE.MeshBasicMaterial({ color: 0x00A59B })
+                new THREE.MeshBasicMaterial({ color: 0x00897B })
             );
             padMesh.position.set(roofConfig.pad.x, 8.15, roofConfig.pad.z);
             obstacleGroup.add(padMesh);
         } else {
-            // 關卡 1 & 2 終點湖水綠拱門線 (Z = -135m)
             const goalMesh = new THREE.Mesh(
                 new THREE.BoxGeometry(24, 0.4, 1.2),
-                new THREE.MeshBasicMaterial({ color: 0x2dd4bf })
+                new THREE.MeshBasicMaterial({ color: 0x00897B })
             );
             goalMesh.position.set(0, 0.2, -135);
             obstacleGroup.add(goalMesh);
         }
     }
 
-    // 切換關卡並載入「學生填空練習 (TODO)」
     function selectLevel(level) {
         currentLevel = Number(level);
         isRunning = false;
 
-        // 更新按鈕高亮 (富邦藍 × 湖水綠漸層按鈕)
         document.querySelectorAll('.level-btn').forEach(btn => {
             const active = Number(btn.dataset.level) === currentLevel;
             btn.className = active
-                ? 'level-btn px-3 py-1 rounded text-xs font-bold btn-fubon-aqua transition'
-                : 'level-btn px-3 py-1 rounded text-xs font-semibold text-violet-200/80 hover:bg-[#005BAC]/40 transition';
+                ? 'level-btn px-3.5 py-1.5 rounded-lg text-xs font-bold btn-fubon-aqua transition shadow-sm'
+                : 'level-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-300 transition';
         });
 
         const info = window.LEVEL_DATA[currentLevel];
@@ -233,7 +226,6 @@
         document.getElementById('missionDesc').textContent = info.desc;
 
         setWeather(currentLevel === 2);
-
         loadCodeTemplate('todo');
         resetDrone();
         buildLevelScene(currentLevel);
@@ -247,11 +239,11 @@
         if (mode === 'todo') {
             editor.value = info.todo;
             indicator.textContent = '目前模式：📝 學生填空練習 (TODO)';
-            indicator.className = 'text-[11px] text-violet-300 font-semibold';
+            indicator.className = 'text-xs text-purple-700 font-bold';
         } else {
             editor.value = info.solution;
             indicator.textContent = '目前模式：💡 標準解答觀摩';
-            indicator.className = 'text-[11px] text-teal-300 font-semibold';
+            indicator.className = 'text-xs text-[#00897B] font-bold';
         }
     }
 
@@ -260,13 +252,13 @@
         const btn = document.getElementById('btnWeather');
         if (isBadWeather) {
             btn.textContent = '🌧️ 濃霧豪雨 (光學退化)';
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold badge-lavender transition';
+            btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold badge-lavender transition';
             scene.fog.density = 0.028;
             rainSystem.visible = true;
         } else {
             btn.textContent = '☀️ 晴朗無霧';
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#005BAC]/40 text-sky-200 border border-sky-400/40 hover:bg-[#005BAC]/70 transition';
-            scene.fog.density = 0.006;
+            btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-50 text-[#005BAC] border border-blue-200 hover:bg-blue-100 transition';
+            scene.fog.density = 0.005;
             rainSystem.visible = false;
         }
     }
@@ -298,10 +290,10 @@
         const el = document.getElementById('statusText');
         el.textContent = msg;
         el.className = type === 'error'
-            ? 'text-rose-300 font-semibold'
+            ? 'text-red-600 font-bold'
             : type === 'success'
-            ? 'text-teal-300 font-bold'
-            : 'text-violet-100';
+            ? 'text-[#00897B] font-extrabold'
+            : 'text-slate-800';
     }
 
     function updateDroneMesh() {
@@ -327,10 +319,10 @@
 
         const telPanel = document.getElementById('telemetryPanel');
         if (droneState.position.y > 15.0) {
-            altBar.className = 'h-full bg-rose-500 transition-all duration-100';
+            altBar.className = 'h-full bg-red-500 transition-all duration-100';
             telPanel.classList.add('altitude-warning-active');
         } else {
-            altBar.className = 'h-full bg-gradient-to-r from-[#005BAC] to-[#2DD4BF] transition-all duration-100';
+            altBar.className = 'h-full bg-gradient-to-r from-[#005BAC] to-[#00897B] transition-all duration-100';
             telPanel.classList.remove('altitude-warning-active');
         }
     }
